@@ -60,6 +60,14 @@ If no dataset clears this, the finding is that public structure–odour data is 
 task, which is reported as the milestone's result. That is a real outcome and the project says
 so rather than modelling something too small and calling it a baseline.
 
+## Before the counting: a literature survey
+
+`research_prompts/01_datasets.md` asks a deep-research tool to establish what exists, how large
+each dataset really is in distinct molecules, and -- the part that matters most -- how published
+work on these data has been split and whether any non-structural baseline was reported. Its
+output should fill the candidate table above and may add datasets we have not heard of. Its
+findings are leads to verify, not facts, and are audited the way sw-enose audits such reports.
+
 ## Deliverables
 
 - `scripts/fetch_*.py` per dataset, with licence and retrieval date recorded.
