@@ -96,6 +96,21 @@ shared molecules can. Two places it could go, still to decide:
 - **Milestone 5:** exact numeric agreement across Pyrfume's numeric archives (for example
   `abraham_2012` against Nagata), if milestone 5 uses them.
 
+## Milestone 4: done (18 Nov 2026)
+
+Results are in `plan-milestone-4.md`. All checks passed (C1 0.876, C2 0.505, C3 exact).
+- **Q2:** POM keeps 0.881 under rule 3, against 0.887 published.
+- **Q1: beyond similarity.** POM over Lookup-W below 0.5 similarity is +0.081 [+0.069, +0.093],
+  and single models clear it too.
+- **S1:** persists.
+- **S2:** the advantage over lookup shrinks with label size, clearly among source labels.
+- **Milestone 3 revised:** against Lookup-W, the forest is worse than lookup far out.
+- **Both pre-run expectations were wrong.**
+
+**Next: write `plan-milestone-5.md` for sw-enose.** Start from note 2's 59 receptors with ≥ 5
+positives and from the bondless limit. The candidate representation is POM's 256-d embedding,
+from one model trained on all of GS+LF.
+
 ## Standing practice (unchanged)
 
 - Fix the bar before the run and run once. A changed setting is a new plan.

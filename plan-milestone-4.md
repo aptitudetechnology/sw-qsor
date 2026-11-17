@@ -310,3 +310,127 @@ Prompted by `note-3-from-sw-enose.md`. These additions decide nothing, and no ba
 3. **Lookup-W uses k = 50**, weighted by similarity.
 4. **The S2 category lists stand as above.**
 5. **Ensemble size 10,** to be reduced only if the cost measurement exceeds about 24 hours.
+
+## Results (18 Nov 2026)
+
+Run once with `python demo_milestone4.py --sw-enose-dir ../sw-enose`, from `d2c0406`, plan and
+both amendments unmodified. It started at 22:09 on 17 Nov and finished at 07:04: 60 trainings
+at about 8 minutes 50 seconds each, 12 threads. The full log is in `data/m4_run.log`
+(gitignored). Per-label results are in `reports/06_m4_per_label.csv` and D1 in
+`reports/06_sw_enose_coverage.csv`.
+
+### Checks: all passed
+
+- **C1:** under OpenPOM's own protocol (iterative stratified 5-fold, one model per fold), the
+  port scores **0.8763** (folds 0.870–0.880), inside the notebook's single-model range of
+  0.862–0.880. The model tested is the published one.
+- **C3:** floral's Lookup-10 and RF-Morgan per-fold AUCs equal milestone 2's exactly.
+- **C2:** permuted labels on rule-3 folds score **0.5053** (folds 0.481–0.522). No leak.
+
+### D1 / D1b (structure only)
+
+- 163 of sw-enose's 180 M2OR molecules are inside GS+LF. The other 17, by nearest-GS+LF
+  similarity: 6 at ≥ 0.7, 5 at 0.6–0.7, 2 at 0.5–0.6, 1 at 0.4–0.5, 2 below 0.4, and 1 too
+  small for fingerprints.
+- 35 GS+LF molecules have ≤ 5 fingerprint bits.
+- **11 bondless entries share one POM representation**: 10 labelled `odorless`, and ammonium
+  sulfide labelled `sulfurous`. The released model predicts "odorless" at 0.92 for hydrogen
+  sulfide (see amendment 2).
+
+### Q2: the published number largely survives rule 3
+
+| | Macro AUC |
+|---|---|
+| OpenPOM, published, stratified folds, ensemble | 0.8872 |
+| **POM ensemble, rule-3 folds, 138 labels** | **0.8810** (folds 0.879–0.885) |
+| POM ensemble, rule-3 folds, the 112 labels | 0.8746 |
+| Single models, OpenPOM's split (C1) → rule-3 folds | 0.8763 → 0.8659 (10 seeds, 0.864–0.868) |
+
+Over the same 112 labels: Lookup-W 0.8109, RF-Morgan 0.8019, Lookup-10 0.7592, RF-MW 0.6857,
+F-MW 0.6631.
+
+**The expectation stated before the run was wrong.** It predicted "clearly below 0.8872".
+Holding analogues out costs the ensemble 0.006 and a single model about 0.010.
+
+### Q1: **BEYOND SIMILARITY**
+
+Pooled over the 91 labels with ≥ 10 positives below 0.5 similarity (1,090 molecules); 2,000
+joint group bootstraps, seed 0; one comparator per margin (amendment 1):
+
+| Margin below 0.5 | Estimate | 95% interval |
+|---|---|---|
+| **POM ensemble over Lookup-W** | **+0.0805** | [+0.0687, +0.0929] |
+| **POM ensemble over Lookup-10** | **+0.1216** | [+0.1065, +0.1375] |
+| Single models over Lookup-W (amendment 2; decides nothing) | +0.0594 mean | +0.0541 to +0.0627 |
+| Single models over Lookup-10 | +0.1005 mean | +0.0952 to +0.1038 |
+
+Both intervals lie entirely above zero, so the verdict is *beyond similarity*. Every one of the
+10 single models also clears the stronger lookup by about 0.06, so the result belongs to the
+architecture, not to ensembling (which adds about 0.02).
+
+**The expectation stated before the run was wrong here too.** It predicted *no evidence beyond
+similarity*, extrapolating from milestone 3's forest.
+
+Macro AUC by nearest-training-neighbour bin (secondary):
+
+| Bin | Molecules | Labels | POM | Lookup-W | RF-Morgan | Lookup-10 |
+|---|---|---|---|---|---|---|
+| 0.0–0.4 | 455 | 44 | **0.844** | 0.771 | 0.731 | 0.741 |
+| 0.4–0.5 | 635 | 72 | **0.851** | 0.790 | 0.757 | 0.758 |
+| 0.5–0.6 | 1,536 | 112 | **0.874** | 0.820 | 0.809 | 0.775 |
+| 0.6–0.7 | 2,355 | 112 | **0.872** | 0.815 | 0.808 | 0.764 |
+
+POM loses only about 0.03 AUC from the nearest bin to the most distant.
+
+### S1: **persists**
+
+POM over F-MW **+0.1858** [+0.1696, +0.2006]; over RF-MW **+0.1862** [+0.1707, +0.2018].
+
+### Reference (decides nothing): milestone 3's forest, revised
+
+RF-Morgan over Lookup-10 below 0.5 is **+0.0059** [−0.0076, +0.0200], which reproduces milestone
+3's Q2 exactly. Over Lookup-W it is **−0.0352** [−0.0464, −0.0237]. So milestone 3's "no evidence
+beyond similarity" understated the forest's weakness: against a lookup that does not tie, the
+forest is *worse* on unfamiliar molecules. That limit belongs to fingerprint forests, not to
+structure-based prediction, since POM clears the same bar.
+
+### S2: the advantage over lookup shrinks as labels gain positives
+
+Spearman correlation of the per-label distant margin with the label's total positives, using
+the same resamples as Q1:
+
+| Labels | vs Lookup-W (decides) | 95% interval | vs Lookup-10 | 95% interval |
+|---|---|---|---|---|
+| All (91) | **−0.304** | [−0.358, −0.076] | −0.436 | [−0.472, −0.208] |
+| Source (68) | **−0.333** | [−0.398, −0.074] | −0.470 | [−0.520, −0.219] |
+| Quality (13) | −0.330 | [−0.599, +0.093] | −0.357 | [−0.599, +0.093] |
+| Chemical (10) | −0.188 | [−0.552, +0.370] | −0.236 | [−0.721, +0.091] |
+
+**Reading, per the plan:** the negative correlation is not confined to quality words. It is
+clearest among source labels, so it points to data quantity rather than vagueness. POM's
+advantage over lookup on unfamiliar molecules is largest for rare labels, and narrows as lookup
+gets more positives to draw on. The quality and chemical groups are too small to read. The
+intervals are lopsided around their estimates, as rank correlations often are under group
+resampling, so the sign is the robust part of this result, not the size.
+
+### What it means
+
+1. **The published odour model learns something that similarity lookup does not.** On molecules
+   below 0.4 fingerprint similarity to anything in training it still reaches 0.844 macro AUC,
+   against 0.771 for the best lookup. Milestones 2 and 3 found that limit for a fingerprint
+   forest, and it does not hold for the graph network.
+2. **Its published accuracy is not an artefact of a leaky split.** 0.8872 becomes 0.8810 when
+   analogues are held out.
+3. **Caveats.**
+   - "Unfamiliar" is measured in Morgan-fingerprint space. POM reads molecular graphs, so it
+     may exploit similarity that fingerprints miss. The claim is "beyond fingerprint lookup",
+     not "beyond every similarity measure".
+   - POM is multi-task (138 labels jointly) where the forest is per label, so the comparison is
+     the published architecture as a whole.
+   - It is one dataset, GS+LF. Arctander has not been tested.
+   - The bondless collapse (D1b) is a hard limit regardless: hydrogen sulfide is represented as
+     water.
+4. **For milestone 5:** POM's embedding is the first representation shown here to generalise
+   beyond lookup, which is what sw-enose's 59 well-populated receptors need. Milestone 5 becomes
+   more promising, not less. Its plan should still start from sw-enose's label constraint
+   (note 2) and from the bondless limit.

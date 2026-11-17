@@ -1,0 +1,184 @@
+source,id,smiles,in_gslf,gslf_labels,bits,heavy_atoms,nn_gslf,bin
+M2OR,ABRIMXGLNHCLIP-UHFFFAOYSA-N,C1CCCCCC(=O)CCCC=CCCCC1,True,amber;dry;musk;powdery,18,17,1.0,in GS+LF
+M2OR,AMIMRNSIRUDHCM-UHFFFAOYSA-N,CC(C)C=O,True,aldehydic;banana;cheesy;chocolate;floral;fresh;fruity;green;pungent,9,5,1.0,in GS+LF
+M2OR,AQIXEPGDORPWBJ-UHFFFAOYSA-N,CCC(CC)O,True,ethereal;fermented;fruity;herbal;nutty;oily;sweet,10,6,1.0,in GS+LF
+M2OR,BBMCTIGTTCKYKF-UHFFFAOYSA-N,CCCCCCCO,True,apple;banana;fatty;fresh;fruity;green;herbal;leafy;musty;pungent;sweet;vegetable;violet;woody,13,8,1.0,in GS+LF
+M2OR,BDERNNFJNOPAEC-UHFFFAOYSA-N,CCCO,True,alcoholic;apple;fermented;fruity;musty;pear;sweet,8,4,1.0,in GS+LF
+M2OR,BJIOGJUNALELMI-ONEGZZNKSA-N,C/C=C/C1=CC(=C(C=C1)O)OC,True,clove;floral;phenolic;spicy;sweet,26,12,1.0,in GS+LF
+M2OR,BYEVBITUADOIGY-UHFFFAOYSA-N,CCCCCCCCC(=O)OCC,True,cognac;fatty;fruity;grape;natural;nutty;oily;rose;rummy;tropical;waxy;winey,21,13,1.0,in GS+LF
+M2OR,CATSNJVOTSVZJV-UHFFFAOYSA-N,CCCCCC(=O)C,True,banana;cheesy;cinnamon;coconut;creamy;fruity;green;herbal;ketonic;spicy;sweet;woody,16,8,1.0,in GS+LF
+M2OR,CAWHJQAVHZEVTJ-UHFFFAOYSA-N,CC1=NC=CN=C1,True,chocolate;cocoa;earthy;fishy;green;musty;nutty;potato;roasted,16,7,1.0,in GS+LF
+M2OR,CBOQJANXLMLOSS-UHFFFAOYSA-N,CCOC1=C(C=CC(=C1)C=O)O,True,caramellic;creamy;sweet;vanilla,28,12,1.0,in GS+LF
+M2OR,CFNJLPHOBMVMNS-UHFFFAOYSA-N,CCCCCOC(=O)CCC,True,banana;cherry;fruity;pineapple;sweet;tropical,21,11,1.0,in GS+LF
+M2OR,CHLICZRVGGXEOD-UHFFFAOYSA-N,CC1=CC=C(C=C1)OC,True,floral;green;leathery;nutty;phenolic;powdery;sharp;sweet,15,9,1.0,in GS+LF
+M2OR,CJPNOLIZCWDHJK-UHFFFAOYSA-N,CCCCCCCCCCCCCC(=O)C,True,burnt;celery;dairy;fatty;floral;fresh;fruity;jasmin;oily;waxy,17,16,1.0,in GS+LF
+M2OR,CRDAMVZIKSXKFV-YFVJMOTDSA-N,CC(=CCC/C(=C/CC/C(=C/CO)/C)/C)C,True,floral;fresh;lily;muguet;oily;sweet;waxy,20,16,1.0,in GS+LF
+M2OR,CRIGTVCBMUKRSL-FNORWQNLSA-N,C/C=C/C(=O)C1C(=CCCC1(C)C)C,True,apple;berry;black currant;floral;fruity;green;metallic;mint;plum;rose;spicy;sweet;woody,30,14,1.0,in GS+LF
+M2OR,DKPFZGUDAPQIHT-UHFFFAOYSA-N,CCCCOC(=O)C,True,banana;ethereal;fruity;pear;pineapple;sharp;solvent;sweet,18,8,1.0,in GS+LF
+M2OR,DRLFMBDRBRZALE-UHFFFAOYSA-N,CC(=O)NCCC1=CNC2=C1C=C(C=C2)OC,False,,39,17,0.333,0.0-0.4
+M2OR,DTUQWGWMVIHBKE-UHFFFAOYSA-N,C1=CC=C(C=C1)CC=O,True,chocolate;cocoa;earthy;fermented;floral;green;honey;hyacinth;powdery;rose;sweet,16,9,1.0,in GS+LF
+M2OR,FBUKVWPVBMHYJY-UHFFFAOYSA-N,CCCCCCCCC(=O)O,True,cheesy;dairy;fatty;nutty;waxy,17,11,1.0,in GS+LF
+M2OR,FERIUCNNQQJTOY-UHFFFAOYSA-N,CCCC(=O)O,True,buttery;cheesy;dairy;fruity;sharp;sour,13,6,1.0,in GS+LF
+M2OR,FFVHXGZXDRXFLQ-UHFFFAOYSA-N,C1CCCCCCCC(CCCCCC1)O,False,,11,16,1.0,>=0.7
+M2OR,FGKJLKRYENPLQH-UHFFFAOYSA-N,CC(C)CCC(=O)O,True,cheesy;pungent;sour,16,8,1.0,in GS+LF
+M2OR,FINOPSACFXSAKB-UHFFFAOYSA-N,C1=CC=C(C=C1)CCCCC=O,False,,22,12,0.708,>=0.7
+M2OR,FJPGAMCQJNLTJC-UHFFFAOYSA-N,CCCCC(=O)C(=O)C,True,buttery;cheesy;fatty;oily;sweet,17,9,1.0,in GS+LF
+M2OR,FKUPPRZPSYCDRS-UHFFFAOYSA-N,C1CCCCCCCOC(=O)CCCCCC1,True,animal;coumarinic;fruity;musk;natural;pear;powdery;sweet;tobacco,17,17,1.0,in GS+LF
+M2OR,FLIACVVOZYBSBS-UHFFFAOYSA-N,CCCCCCCCCCCCCCCC(=O)OC,True,fatty;oily;orris;sweet;waxy,20,19,1.0,in GS+LF
+M2OR,FQTLCLSUCSAZDY-SDNWHVSQSA-N,CC(=CCC/C(=C/CCC(C)(C=C)O)/C)C,True,citrus;floral;green;sweet;waxy;woody,28,16,1.0,in GS+LF
+M2OR,FUZZWVXGSFPDMH-UHFFFAOYSA-N,CCCCCC(=O)O,True,cheesy;fatty;sour;sweaty,16,8,1.0,in GS+LF
+M2OR,FXHGMKSSBGDXIY-UHFFFAOYSA-N,CCCCCCC=O,True,aldehydic;citrus;cognac;fatty;fresh;green;herbal;nutty;ozone;sweet,16,8,1.0,in GS+LF
+M2OR,FYGHSUNMUKGBRK-UHFFFAOYSA-N,CC1=C(C(=CC=C1)C)C,False,,12,9,0.611,0.6-0.7
+M2OR,FZJUFJKVIYFBSY-UHFFFAOYSA-N,CC(C)(C)C1=CC=C(C=C1)CCC=O,True,floral;fresh;sweet,24,14,1.0,in GS+LF
+M2OR,FZWLAAWBMGSTSO-UHFFFAOYSA-N,C1=CSC=N1,True,fishy;meaty;nutty,13,5,1.0,in GS+LF
+M2OR,GHVNFZFCNZKVNT-UHFFFAOYSA-N,CCCCCCCCCC(=O)O,True,cheesy;citrus;dairy;fatty;sour;waxy,17,12,1.0,in GS+LF
+M2OR,GLZPCOQZEFWAFX-JXMROGBWSA-N,CC(=CCC/C(=C/CO)/C)C,True,citrus;floral;fresh;fruity;natural;rose;sweet;waxy,19,11,1.0,in GS+LF
+M2OR,GLZPCOQZEFWAFX-YFHOEESVSA-N,CC(=CCC/C(=C\CO)/C)C,True,citrus;floral;fresh;fruity;natural;rose;sweet;waxy,19,11,1.0,in GS+LF
+M2OR,GRLJIIJNZJVMGP-UHFFFAOYSA-N,CCCC(=O)SC,True,cabbage;cheesy;cocoa;fruity;garlic;milky;sulfurous;sweet;tomato,16,7,1.0,in GS+LF
+M2OR,GWYFCOCPABKNJV-UHFFFAOYSA-N,CC(C)CC(=O)O,True,cheesy;dairy;fatty;fruity;pungent;ripe;sour;sweaty;tropical,14,7,1.0,in GS+LF
+M2OR,GYHFUZHODSMOHU-UHFFFAOYSA-N,CCCCCCCCC=O,True,aldehydic;citrus;cucumber;fatty;floral;fresh;fruit skin;green;lemon;orange;orris;rose;waxy,16,10,1.0,in GS+LF
+M2OR,HFJRKMMYBMWEAD-UHFFFAOYSA-N,CCCCCCCCCCCC=O,True,aldehydic;citrus;clean;floral;green;orange;soapy;sweet;waxy,16,13,1.0,in GS+LF
+M2OR,HFPZCAJZSCWRBC-UHFFFAOYSA-N,CC1=CC=C(C=C1)C(C)C,True,citrus;fresh;spicy;terpenic;woody,15,10,1.0,in GS+LF
+M2OR,HFVMLYAGWXSTQI-QYXZOKGRSA-N,C[C@]12CC[C@H]3[C@H]([C@@H]1CC=C2)CC[C@@H]4[C@@]3(CCC(=O)C4)C,False,,39,20,0.583,0.5-0.6
+M2OR,HGDVHRITTGWMJK-UHFFFAOYSA-N,CC(C)CCCC(C)(C)O,True,citrus;floral;fresh;herbal;lavender;muguet;rose;woody,17,10,1.0,in GS+LF
+M2OR,HIGQPQRQIQDZMP-DHZHZOJOSA-N,CC(=CCC/C(=C/COC(=O)C)/C)C,True,citrus;floral;fruity;grapefruit;green;lavender;pear;rose;soapy;sweet;tropical;waxy,25,14,1.0,in GS+LF
+M2OR,HLCSDJLATUNSSI-JXMROGBWSA-N,CC(=CCC/C(=C/C#N)/C)C,True,aldehydic;citrus;fruity;green;lemon;metallic;sharp;sweet,22,11,1.0,in GS+LF
+M2OR,HNDHDMOSWUAEAW-VMXHOPILSA-N,C[C@]12CC[C@H]3[C@H]([C@@H]1CC=C2)CCC4=CC(=O)CC[C@]34C,False,,39,20,0.407,0.4-0.5
+M2OR,HPEUJPJOZXNMSJ-UHFFFAOYSA-N,CCCCCCCCCCCCCCCCCC(=O)OC,True,oily;waxy,20,21,1.0,in GS+LF
+M2OR,HUMNYLRZRPPJDN-UHFFFAOYSA-N,C1=CC=C(C=C1)C=O,True,almond;bitter;cherry;fruity;nutty;oily;powdery;sharp;sweet,14,8,1.0,in GS+LF
+M2OR,IJXHLVMUNBOGRR-UHFFFAOYSA-N,CCCCCCCCC(=O)OC,True,coconut;fruity;green;nutty;pear;sweet;tropical;waxy;winey,20,12,1.0,in GS+LF
+M2OR,IKTHMQYJOWTSJO-UHFFFAOYSA-N,CC(=O)C1=C2CCC(C2=CC(=C1)C(C)(C)C)(C)C,True,amber;animal;cedar;musk;woody,32,18,1.0,in GS+LF
+M2OR,IOJUPLGTWVMSFF-UHFFFAOYSA-N,C1=CC=C2C(=C1)N=CS2,True,beefy;burnt;coffee;cooked;meaty;nutty;sulfurous;vegetable,19,9,1.0,in GS+LF
+M2OR,IPCSVZSSVZVIGE-UHFFFAOYSA-N,CCCCCCCCCCCCCCCC(=O)O,True,creamy;fatty;waxy,17,18,1.0,in GS+LF
+M2OR,IVSZLXZYQVIEFR-UHFFFAOYSA-N,CC1=CC(=CC=C1)C,False,,12,8,0.611,0.6-0.7
+M2OR,IYTXKIXETAELAV-UHFFFAOYSA-N,CCCCCCC(=O)CC,True,floral;fresh;fruity;grassy;green;herbal;jasmin;leafy;spicy;sweet,18,10,1.0,in GS+LF
+M2OR,JARKCYVAAOWBJS-UHFFFAOYSA-N,CCCCCC=O,True,aldehydic;clean;fatty;fresh;fruity;grassy;green;leafy;sweaty;vegetable;woody,15,7,1.0,in GS+LF
+M2OR,JFTSYAALCNQOKO-UHFFFAOYSA-N,CCC1=CC=C(C=C1)CC(C)(C)C=O,True,aldehydic;clean;floral;fresh;green;muguet;ozone,23,14,1.0,in GS+LF
+M2OR,JGHZJRVDZXSNKQ-UHFFFAOYSA-N,CCCCCCCC(=O)OC,True,aldehydic;fruity;green;herbal;orange;sweet;vegetable;waxy;winey,20,11,1.0,in GS+LF
+M2OR,JHIVVAPYMSGYDF-UHFFFAOYSA-N,C1CCC(=O)CC1,True,camphoreous;ketonic;mint;solvent;sweet,11,7,1.0,in GS+LF
+M2OR,JUJWROOIHBZHMG-UHFFFAOYSA-N,C1=CC=NC=C1,True,burnt;fishy;sour,9,6,1.0,in GS+LF
+M2OR,KBPLFHHGFOOTCA-UHFFFAOYSA-N,CCCCCCCCO,True,aldehydic;citrus;coconut;fatty;floral;green;mushroom;orange;rose;sweet;waxy,13,9,1.0,in GS+LF
+M2OR,KGEKLUUHTZCSIP-JFGNBEQYSA-N,CC(=O)O[C@H]1C[C@H]2CC[C@]1(C2(C)C)C,True,balsamic;camphoreous;cedar;earthy;fresh;fruity;herbal;pine;spicy;sweet;woody,28,14,1.0,in GS+LF
+M2OR,KHLFMZDGADSQGR-ACCUITESSA-N,C1CCCCCCOC(=O)/C=C/CCCCC1,True,musk;sweet;waxy,21,17,1.0,in GS+LF
+M2OR,KJPRLNWUNMBNBZ-QPJJXVBHSA-N,C1=CC=C(C=C1)/C=C/C=O,True,aldehydic;aromatic;balsamic;cinnamon;honey;powdery;spicy;sweet;warm,18,10,1.0,in GS+LF
+M2OR,KMPQYAYAQWNLME-UHFFFAOYSA-N,CCCCCCCCCCC=O,True,aldehydic;citrus;fatty;floral;green;orange;pineapple;soapy;sweet;waxy,16,12,1.0,in GS+LF
+M2OR,KQNPFQTWMSNSAP-UHFFFAOYSA-N,CC(C)C(=O)O,True,buttery;cheesy;dairy;fruity;sour,10,6,1.0,in GS+LF
+M2OR,KSMVZQYAVGTKIV-UHFFFAOYSA-N,CCCCCCCCCC=O,True,aldehydic;citrus;floral;fruit skin;fruity;orange;sweet;waxy,16,11,1.0,in GS+LF
+M2OR,KWOLFJPFCHCOCG-UHFFFAOYSA-N,CC(=O)C1=CC=CC=C1,True,almond;cherry;coumarinic;floral;hawthorn;nutty;pungent;sweet;vanilla,16,9,1.0,in GS+LF
+M2OR,KYQCOXFCLRTKLS-UHFFFAOYSA-N,C1=CN=CC=N1,True,hazelnut;musty;nutty;pungent;roasted;sweet,6,6,1.0,in GS+LF
+M2OR,LCZUOKDVTBMCMX-UHFFFAOYSA-N,CC1=CN=C(C=N1)C,True,beefy;chocolate;cocoa;earthy;grassy;medicinal;musty;nutty;powdery;roasted;woody,11,8,1.0,in GS+LF
+M2OR,LHGVFZTZFXWLCP-UHFFFAOYSA-N,COC1=CC=CC=C1O,True,meaty;medicinal;phenolic;savory;smoky;spicy;sweet;vanilla;woody,18,9,1.0,in GS+LF
+M2OR,LHXDLQBQYFFVNW-OIBJUYFYSA-N,C[C@@]12CC[C@@H](C1)C(C2=O)(C)C,True,balsamic;camphoreous;cedar;cooling;earthy;fresh;herbal;mint;pine;sweet;terpenic;woody,22,11,1.0,in GS+LF
+M2OR,LQZZUXJYWNFBMV-UHFFFAOYSA-N,CCCCCCCCCCCCO,True,citrus;coconut;earthy;fatty;floral;honey;oily;soapy;waxy,13,13,1.0,in GS+LF
+M2OR,LRHPLDYGYMQRHN-UHFFFAOYSA-N,CCCCO,True,alcoholic;balsamic;fermented;oily;solvent;sweet;winey,11,5,1.0,in GS+LF
+M2OR,LSDPWZHWYPCBBB-UHFFFAOYSA-N,CS,True,alliaceous;cabbage;creamy;garlic;oily;savory;sulfurous;vegetable,3,2,1.0,in GS+LF
+M2OR,LSKONYYRONEBKA-UHFFFAOYSA-N,CCCCCCCCCCC(=O)C,True,citrus;floral;fruity;orange,17,13,1.0,in GS+LF
+M2OR,MGSRCZKZVOBKFT-UHFFFAOYSA-N,CC1=CC(=C(C=C1)C(C)C)O,True,camphoreous;herbal;medicinal;phenolic;spicy;sweet,21,11,1.0,in GS+LF
+M2OR,MLFHJEHSLIIPHL-UHFFFAOYSA-N,CC(C)CCOC(=O)C,True,banana;fruity;pear;ripe;solvent;sweet,19,9,1.0,in GS+LF
+M2OR,MMFCJPPRCYDLLZ-CMDGGOBGSA-N,CCCCCCC/C=C/C=O,True,aldehydic;earthy;fatty;floral;fruit skin;fruity;green;mushroom;orange;rose;waxy,20,11,1.0,in GS+LF
+M2OR,MMKRHZKQPFCLLS-UHFFFAOYSA-N,CCCCCCCCCCCCCC(=O)OCC,True,creamy;fatty;orris;sweet;violet;waxy,21,18,1.0,in GS+LF
+M2OR,MMXKVMNBHPAILY-UHFFFAOYSA-N,CCCCCCCCCCCC(=O)OCC,True,clean;dairy;fatty;floral;fruity;oily;soapy;sweet;waxy,21,16,1.0,in GS+LF
+M2OR,MNRZECIRFMLTEY-UHFFFAOYSA-N,CC(C)(C)C1=CC=C(C=C1)OCC=O,False,,25,14,0.621,0.6-0.7
+M2OR,MNWFXJYAOYHMED-UHFFFAOYSA-N,CCCCCCC(=O)O,True,cheesy;fatty;fermented;fruity;pineapple;sour;sweaty;waxy,17,9,1.0,in GS+LF
+M2OR,MVLVMROFTAUDAG-UHFFFAOYSA-N,CCCCCCCCCCCCCCCCCC(=O)OCC,True,waxy,21,22,1.0,in GS+LF
+M2OR,MWKFXSUHUHTGQN-UHFFFAOYSA-N,CCCCCCCCCCO,True,clean;fatty;floral;oily;orange;sweet;waxy,13,11,1.0,in GS+LF
+M2OR,MWOOGOJBHIARFG-UHFFFAOYSA-N,COC1=C(C=CC(=C1)C=O)O,True,chocolate;creamy;sweet;vanilla,25,11,1.0,in GS+LF
+M2OR,NFLGAXVYCFJBMK-BDAKNGLRSA-N,C[C@@H]1CC[C@H](C(=O)C1)C(C)C,True,anisic;camphoreous;cooling;ethereal;fresh;green;herbal;mint;sweet,22,11,1.0,in GS+LF
+M2OR,NHFRGTVSKOPUBK-UHFFFAOYSA-N,C1=CC=C(C=C1)CCCC=O,False,,21,11,0.739,>=0.7
+M2OR,NKMKFQCVDZVEJR-CSKARUKUSA-N,CC1C/C=C/CCCCCCCCCC(=O)C1,True,animal;musk;soapy,27,17,1.0,in GS+LF
+M2OR,NOOLISFMXDJSKH-AEJSXWLSSA-N,C[C@H]1CC[C@@H]([C@H](C1)O)C(C)C,True,bitter;camphoreous;cooling;earthy;hay;herbal;mint;musty;pine;sweet;woody,21,11,1.0,in GS+LF
+M2OR,NOOLISFMXDJSKH-KXUCPTDWSA-N,C[C@@H]1CC[C@H]([C@@H](C1)O)C(C)C,True,bitter;camphoreous;cooling;earthy;hay;herbal;mint;musty;pine;sweet;woody,21,11,1.0,in GS+LF
+M2OR,NUJGJRNETVAIRJ-UHFFFAOYSA-N,CCCCCCCC=O,True,aldehydic;citrus;fatty;fresh;fruit skin;fruity;green;herbal;orange;waxy,16,9,1.0,in GS+LF
+M2OR,NUKZAGXMHTUAFE-UHFFFAOYSA-N,CCCCCC(=O)OC,True,apple;apricot;banana;ethereal;fruity;pineapple;strawberry,19,9,1.0,in GS+LF
+M2OR,NVIPUOMWGQAOIT-RQOWECAXSA-N,C1CCCCOC(=O)CCCCC/C=C\CCC1,True,animal;musk;musty,23,18,1.0,in GS+LF
+M2OR,OBNCKNCVKJNDBV-UHFFFAOYSA-N,CCCC(=O)OCC,True,banana;buttery;cognac;ethereal;fruity;juicy;pineapple;ripe,17,8,1.0,in GS+LF
+M2OR,OSOIQJGOYGSIMF-UHFFFAOYSA-N,C1CCCCCCCC(=O)CCCCCC1,True,animal;musk;natural;powdery,11,16,1.0,in GS+LF
+M2OR,OSWPMRLSEDHDFF-UHFFFAOYSA-N,COC(=O)C1=CC=CC=C1O,True,aromatic;camphoreous;mint;phenolic;sweet;warm,22,11,1.0,in GS+LF
+M2OR,PETRWTHZSKVLRE-UHFFFAOYSA-N,CC1=CC(=C(C=C1)O)OC,True,burnt;clove;leathery;medicinal;phenolic;smoky;spicy;sweet;vanilla;woody,21,10,1.0,in GS+LF
+M2OR,PFCHFHIRKBAQGU-UHFFFAOYSA-N,CCCC(=O)CC,True,ethereal;fruity;grape;rummy;sweet;waxy;winey,14,7,1.0,in GS+LF
+M2OR,PGMYKACGEOXYJE-UHFFFAOYSA-N,CCCCCOC(=O)C,True,apple;banana;ethereal;fruity;pear,19,9,1.0,in GS+LF
+M2OR,POULHZVOKOAJMA-UHFFFAOYSA-N,CCCCCCCCCCCC(=O)O,True,coconut;fatty;fresh;waxy,17,14,1.0,in GS+LF
+M2OR,PQYGSSYFJIJDFK-UHFFFAOYSA-N,CCCCCCCC(=O)CCCCCCC,False,,16,16,0.938,>=0.7
+M2OR,PSQYTAPXSHCGMF-BQYQJAHWSA-N,CC1=C(C(CCC1)(C)C)/C=C/C(=O)C,True,berry;floral;fruity;sweet;tropical;violet;woody,29,14,1.0,in GS+LF
+M2OR,QIQXTHQIDYTFRH-UHFFFAOYSA-N,CCCCCCCCCCCCCCCCCC(=O)O,True,waxy,17,20,1.0,in GS+LF
+M2OR,QMMFVYPAHWMCMS-UHFFFAOYSA-N,CSC,True,berry;cabbage;cooked;creamy;fishy;fruity;green;onion;pungent;radish;sulfurous;sweet;tomato;vegetable,4,3,1.0,in GS+LF
+M2OR,QPJVMBTYPHYUOC-UHFFFAOYSA-N,COC(=O)C1=CC=CC=C1,True,almond;floral;fruity;phenolic;sweet,19,10,1.0,in GS+LF
+M2OR,QSJXEFYPDANLFS-UHFFFAOYSA-N,CC(=O)C(=O)C,True,buttery;caramellic;creamy;pungent;sweet,7,6,1.0,in GS+LF
+M2OR,QTBSBXVTEAMEQO-UHFFFAOYSA-N,CC(=O)O,True,pungent;sharp;sour,7,4,1.0,in GS+LF
+M2OR,QUKGYYKBILRGFE-UHFFFAOYSA-N,CC(=O)OCC1=CC=CC=C1,True,floral;fresh;fruity;jasmin;sweet,22,11,1.0,in GS+LF
+M2OR,RDOXTESZEPMUJZ-UHFFFAOYSA-N,COC1=CC=CC=C1,True,anisic;ethereal;phenolic;sweet,14,8,1.0,in GS+LF
+M2OR,RECUKUPTGUEGMW-UHFFFAOYSA-N,CC1=C(C=C(C=C1)C(C)C)O,True,camphoreous;cooling;herbal;medicinal;phenolic;smoky;spicy;woody,21,11,1.0,in GS+LF
+M2OR,RGXWDWUGBIJHDO-UHFFFAOYSA-N,CCCCCCCCCC(=O)OCC,True,apple;brandy;cognac;fatty;fruity;grape;nutty;oily;sweet;waxy;winey,21,14,1.0,in GS+LF
+M2OR,RHLVCLIPMVJYKS-UHFFFAOYSA-N,CCCCCC(=O)CC,True,cheesy;earthy;fermented;fresh;fruity;green;herbal;ketonic;lavender;mushroom;musty;sweet;vegetable,17,9,1.0,in GS+LF
+M2OR,RMBFBMJGBANMMK-UHFFFAOYSA-N,CC1=C(C=C(C=C1)[N+](=O)[O-])[N+](=O)[O-],False,,23,13,0.341,0.0-0.4
+M2OR,RRAFCDWBNXTKKO-UHFFFAOYSA-N,COC1=C(C=CC(=C1)CC=C)O,True,cinnamon;clove;dry;phenolic;pungent;savory;smoky;spicy;sweet;woody,28,12,1.0,in GS+LF
+M2OR,RUVINXPYWBROJD-ONEGZZNKSA-N,C/C=C/C1=CC=C(C=C1)OC,True,anisic;herbal;sweet,20,11,1.0,in GS+LF
+M2OR,RWGFKTVRMDUZSP-UHFFFAOYSA-N,CC(C)C1=CC=CC=C1,False,,14,9,0.579,0.5-0.6
+M2OR,SCCDQYPEOIRVGX-UHFFFAOYSA-N,CC(=O)OC1=C(C=C(C=C1)CC=C)OC,True,balsamic;clove;floral;fresh;fruity;malty;spicy;sweet;woody,33,15,1.0,in GS+LF
+M2OR,SHZIWNPUGXLXDT-UHFFFAOYSA-N,CCCCCC(=O)OCC,True,banana;fatty;fruity;green;pear;pineapple;strawberry;sweet;tropical;waxy,20,10,1.0,in GS+LF
+M2OR,SIKJAQJRHWYJAI-UHFFFAOYSA-N,C1=CC=C2C(=C1)C=CN2,True,animal;cheesy;floral;musty;pungent,17,9,1.0,in GS+LF
+M2OR,SMWDFEZZVXVKRB-UHFFFAOYSA-N,C1=CC=C2C(=C1)C=CC=N2,True,animal;earthy;leathery;medicinal;musty;sweet;tobacco,17,10,1.0,in GS+LF
+M2OR,SRONXYPFSAKOGH-UHFFFAOYSA-N,C1CCCCCCCCCCCCCC1,False,,3,15,1.0,too small for fingerprints
+M2OR,SXOZDDAFVJANJP-UHFFFAOYSA-N,C1CCCCC(=O)CCCC1,False,,11,11,1.0,>=0.7
+M2OR,TUNFSRHWOTWDNC-UHFFFAOYSA-N,CCCCCCCCCCCCCC(=O)O,True,citrus;coconut;fatty;fruit skin;oily;pineapple;soapy;waxy,17,16,1.0,in GS+LF
+M2OR,TVQGDYNRXLTQAP-UHFFFAOYSA-N,CCCCCCC(=O)OCC,True,banana;berry;cognac;fruity;green;pineapple;rummy;sweet;winey,21,11,1.0,in GS+LF
+M2OR,TZJLGGWGVLADDN-UHFFFAOYSA-N,CC(=O)CCC1=CC2=C(C=C1)OCO2,True,berry;cherry;floral;fruity;powdery;raspberry;sweet;woody,30,14,1.0,in GS+LF
+M2OR,UBJVUCKUDDKUJF-UHFFFAOYSA-N,C=CCSCC=C,True,garlic;metallic;onion;pungent;radish;sulfurous;sweet,11,7,1.0,in GS+LF
+M2OR,UFLHIIWVXFIJGU-ARJAWSKDSA-N,CC/C=C\CCO,True,apple;cortex;earthy;fatty;floral;fresh;fruity;grassy;green;herbal;leafy;melon;oily;pungent;vegetable,15,7,1.0,in GS+LF
+M2OR,UHEPJGULSIKKTP-UHFFFAOYSA-N,CC(=CCCC(=O)C)C,True,apple;banana;cheesy;citrus;creamy;fruity;grassy;green;herbal;ketonic;lemon;musty;oily,17,9,1.0,in GS+LF
+M2OR,ULDHMXUKGWMISQ-SECBINFHSA-N,CC1=CC[C@H](CC1=O)C(=C)C,True,herbal;mint;spicy;sweet,26,11,1.0,in GS+LF
+M2OR,ULDHMXUKGWMISQ-VIFPVBQESA-N,CC1=CC[C@@H](CC1=O)C(=C)C,True,herbal;mint;spicy;sweet,26,11,1.0,in GS+LF
+M2OR,UPOSSYJVWXLPTA-UHFFFAOYSA-N,C1CCCCCC(=O)CCCC1,False,,11,12,1.0,>=0.7
+M2OR,UQDUPQYQJKYHQI-UHFFFAOYSA-N,CCCCCCCCCCCC(=O)OC,True,coconut;creamy;mushroom;soapy;waxy,20,15,1.0,in GS+LF
+M2OR,USIUVYZYUHIAEV-UHFFFAOYSA-N,C1=CC=C(C=C1)OC2=CC=CC=C2,True,floral;geranium;green;leafy;metallic;phenolic,12,13,1.0,in GS+LF
+M2OR,UXFSPRAGHGMRSQ-UHFFFAOYSA-N,CC(C)CC1=NC=CN=C1OC,True,green,24,12,1.0,in GS+LF
+M2OR,VKCYHJWLYTUGCC-UHFFFAOYSA-N,CCCCCCCC(=O)C,True,cheesy;coconut;earthy;fatty;fresh;fruity;green;herbal;soapy;sweet;waxy;weedy,17,10,1.0,in GS+LF
+M2OR,VPKMGDRERYMTJX-CMDGGOBGSA-N,CCC(=O)/C=C/C1C(=CCCC1(C)C)C,True,floral;fruity;oily;orris;powdery;sweet;tea;violet;woody,34,15,1.0,in GS+LF
+M2OR,VSBHYRPUJHEOBE-UHFFFAOYSA-N,CC1=C(C(=O)C=CO1)OC(=O)C(C)C,True,berry;burnt;caramellic;dry;fruity;strawberry;sweet;tropical,30,14,1.0,in GS+LF
+M2OR,WBYWAXJHAXSJNI-VOTSOKGWSA-N,C1=CC=C(C=C1)/C=C/C(=O)O,True,balsamic;cinnamon;sweet,19,11,1.0,in GS+LF
+M2OR,WDAXFOBOLVPGLV-UHFFFAOYSA-N,CCOC(=O)C(C)C,True,alcoholic;apple;ethereal;fruity;pungent;rummy;sweet,16,8,1.0,in GS+LF
+M2OR,WEEGYLXZBRQIMU-UHFFFAOYSA-N,CC1(C2CCC(O1)(CC2)C)C,True,camphoreous;cooling;fresh;herbal;medicinal,18,11,1.0,in GS+LF
+M2OR,WQEPLUUGTLDZJY-UHFFFAOYSA-N,CCCCCCCCCCCCCCC(=O)O,True,fatty;waxy,17,17,1.0,in GS+LF
+M2OR,WSTQLNQRVZNEDV-CSKARUKUSA-N,CCCCCC(/C(=C/CC)/C)O,True,fruity;green;lily;oily;violet,23,12,1.0,in GS+LF
+M2OR,WTEVQBCEXWBHNA-JXMROGBWSA-N,CC(=CCC/C(=C/C=O)/C)C,True,citrus;fresh;fruit skin;fruity;herbal;lemon;sharp;sweet,21,11,1.0,in GS+LF
+M2OR,WTOYNNBCKUYIKC-JMSVASOKSA-N,C[C@@H]1CC(=O)C=C2[C@]1(C[C@@H](CC2)C(=C)C)C,True,citrus;fruit skin;grapefruit;orange;sweet;terpenic;woody,36,16,1.0,in GS+LF
+M2OR,WVDDGKGOMKODPV-UHFFFAOYSA-N,C1=CC=C(C=C1)CO,True,almond;balsamic;floral;fruity;phenolic;rose;sweet,14,8,1.0,in GS+LF
+M2OR,WWZKQHOCKIZLMA-UHFFFAOYSA-N,CCCCCCCC(=O)O,True,animal;cheesy;fatty;oily;sweaty;vegetable;waxy,17,10,1.0,in GS+LF
+M2OR,WXCMHFPAUCOJIG-UHFFFAOYSA-N,CC1=C(C(=C(C(=C1[N+](=O)[O-])C(C)(C)C)[N+](=O)[O-])C)C(=O)C,True,dry;fatty;floral;musk;powdery;soapy,27,21,1.0,in GS+LF
+M2OR,XAPCMTMQBXLDBB-UHFFFAOYSA-N,CCCCCCOC(=O)CCC,True,apple;fruity;green;soapy;sweet;vegetable;waxy,22,12,1.0,in GS+LF
+M2OR,XBDQKXXYIPTUBI-UHFFFAOYSA-N,CCC(=O)O,True,cheesy;dairy;milky;pungent;sour,10,5,1.0,in GS+LF
+M2OR,XCWPXUNHSPOFGV-UHFFFAOYSA-N,CC(C)CCOCC(=O)OCC=C,True,apple;fruity;green;herbal;pineapple,29,13,1.0,in GS+LF
+M2OR,XIRNKXNNONJFQO-UHFFFAOYSA-N,CCCCCCCCCCCCCCCC(=O)OCC,True,balsamic;creamy;fruity;milky;oily;sweet;waxy,21,20,1.0,in GS+LF
+M2OR,XIYPXOFSURQTTJ-NSCUHMNNSA-N,CC(=O)/C=C/C1=CC2=C(C=C1)OCO2,False,,30,14,0.618,0.6-0.7
+M2OR,XMGQYMWWDOXHJM-SNVBAGLBSA-N,CC1=CC[C@H](CC1)C(=C)C,True,aromatic;citrus;fresh;herbal;lemon;orange;phenolic;pine;sweet;terpenic;woody,24,10,1.0,in GS+LF
+M2OR,XMIIGOLPHOKFCH-UHFFFAOYSA-N,C1=CC=C(C=C1)CCC(=O)O,True,balsamic;cinnamon;fatty;floral;musk;rose;sweet,19,11,1.0,in GS+LF
+M2OR,XMWRWTSZNLOZFN-UHFFFAOYSA-N,CC1=C(C(=C(C(=C1[N+](=O)[O-])C(C)(C)C)[N+](=O)[O-])C)[N+](=O)[O-],True,dry;fatty;musk;soapy;sweet,21,21,1.0,in GS+LF
+M2OR,XNCNNDVCAUWAIT-UHFFFAOYSA-N,CCCCCCC(=O)OC,True,apple;berry;floral;fruity;green;orris;sweet;waxy,20,10,1.0,in GS+LF
+M2OR,XPCTZQVDEJYUGT-UHFFFAOYSA-N,CC1=C(C(=O)C=CO1)O,True,berry;burnt;caramellic;fruity;strawberry;sweet,21,9,1.0,in GS+LF
+M2OR,XRHCAGNSDHCHFJ-UHFFFAOYSA-N,C1CCCCCC(=O)OCCOC(=O)CCCCC1,True,fatty;floral;musk;oily;powdery;sweet;woody,16,19,1.0,in GS+LF
+M2OR,XSAYZAUNJMRRIR-UHFFFAOYSA-N,CC(=O)C1=CC2=CC=CC=C2C=C1,True,floral;honey;orange;orangeflower;powdery;sweet,22,13,1.0,in GS+LF
+M2OR,XUPYJHCZDLZNFP-UHFFFAOYSA-N,CCCCOC(=O)CCC,True,apple;banana;cherry;fresh;fruity;green;juicy;pear;pineapple;ripe;sweet,20,10,1.0,in GS+LF
+M2OR,XWEOGMYZFCHQNT-UHFFFAOYSA-N,CCOC(=O)CC1(OCCO1)C,True,apple;fruity;green;pine;plum;sweet;tropical;woody,25,12,1.0,in GS+LF
+M2OR,YGCZTXZTJXYWCO-UHFFFAOYSA-N,C1=CC=C(C=C1)CCC=O,True,aldehydic;balsamic;cortex;floral;fresh;green;hyacinth;leafy;melon,19,10,1.0,in GS+LF
+M2OR,YLYBTZIQSIBWLI-UHFFFAOYSA-N,CCCCCCCCOC(=O)C,True,citrus;earthy;floral;fruity;green;herbal;jasmin;mushroom;orange;peach;waxy,20,12,1.0,in GS+LF
+M2OR,YRHYCMZPEVDGFQ-UHFFFAOYSA-N,CCCCCCCCCC(=O)OC,True,cognac;fatty;fermented;floral;fruity;oily;winey,20,13,1.0,in GS+LF
+M2OR,YYZUSRORWSJGET-UHFFFAOYSA-N,CCCCCCCC(=O)OCC,True,apricot;banana;brandy;creamy;dairy;fruity;musty;pear;pineapple;sweet;waxy;winey,21,12,1.0,in GS+LF
+M2OR,ZAJNGDIORYACQU-UHFFFAOYSA-N,CCCCCCCCC(=O)C,True,fatty;floral;orange;peach,17,11,1.0,in GS+LF
+M2OR,ZALVGSSYVAPZDA-UHFFFAOYSA-N,CCCCCCCCC(OC(=O)C)OC(=O)C,False,,23,17,0.679,0.6-0.7
+M2OR,ZAZKJZBWRNNLDS-UHFFFAOYSA-N,CCCCCCCCCCCCCC(=O)OC,True,cognac;fatty;oily;orris;waxy,20,17,1.0,in GS+LF
+M2OR,ZCZSIDMEHXZRLG-UHFFFAOYSA-N,CCCCCCCOC(=O)C,True,aldehydic;apricot;citrus;fatty;floral;fresh;fruity;green;pear;ripe;rummy;waxy;winey;woody,20,11,1.0,in GS+LF
+M2OR,ZFGBKXBPHOUSJX-VQHVLOKHSA-N,CC1C/C=C/CCCCCCCCC(=O)C1,True,amber;animal;anisic;fatty;musk;powdery;woody,27,16,1.0,in GS+LF
+M2OR,ZFMSMUAANRJZFM-UHFFFAOYSA-N,COC1=CC=C(C=C1)CC=C,True,anisic;celery;green;herbal;mint;phenolic;spicy;sweet,22,11,1.0,in GS+LF
+M2OR,ZGEHHVDYDNXYMW-OWOJBTEDSA-N,C1CCC/C=C/CCCCCCC(=O)CCC1,True,animal;balsamic;dry;floral;musk;tobacco;waxy,17,17,1.0,in GS+LF
+M2OR,ZGEHHVDYDNXYMW-UPHRSURJSA-N,C1CCC/C=C\CCCCCCC(=O)CCC1,True,animal;balsamic;dry;floral;musk;tobacco;waxy,17,17,1.0,in GS+LF
+M2OR,ZMQAAUBTXCXRIC-UHFFFAOYSA-N,C=CCC1=CC2=C(C=C1)OCO2,True,anisic;aromatic;floral;spicy;sweet;warm;woody,26,12,1.0,in GS+LF
+M2OR,ZPVFWPFBNIEHGJ-UHFFFAOYSA-N,CCCCCCC(=O)C,True,apple;cheesy;dairy;earthy;fatty;fruity;green;herbal;ketonic;musty;natural;weedy;woody,17,9,1.0,in GS+LF
+M2OR,ZRSNZINYAWTAHE-UHFFFAOYSA-N,COC1=CC=C(C=C1)C=O,True,anisic;balsamic;floral;fruity;hawthorn;hay;herbal;powdery;sweet;vanilla,19,10,1.0,in GS+LF
+M2OR,ZSIAUFGUXNUGDI-UHFFFAOYSA-N,CCCCCCO,True,alcoholic;ethereal;fatty;fruity;green;herbal;oily;pungent;sweet;winey,13,7,1.0,in GS+LF
+M2OR,ZWEHNKRNPOVVGH-UHFFFAOYSA-N,CCC(=O)C,True,camphoreous;ethereal;fruity;ketonic;solvent;sweet,10,5,1.0,in GS+LF
+M2OR,ZWRUINPWMLAQRD-UHFFFAOYSA-N,CCCCCCCCCO,True,clean;fatty;floral;fresh;oily;orange;rose,13,10,1.0,in GS+LF
+M2OR,ZYEMGPIYFIJGTP-UHFFFAOYSA-N,COC1=C(C=C(C=C1)CC=C)OC,True,cinnamon;clove;fresh;herbal;musty;phenolic;spicy;sweet;tea;vegetable;warm;waxy,25,13,1.0,in GS+LF
+M2OR,ZYGHJZDHTFUPRJ-UHFFFAOYSA-N,C1=CC=C2C(=C1)C=CC(=O)O2,True,hay;sweet,20,11,1.0,in GS+LF
+breath,hydrogen sulfide,S,False,,1,1,0.167,too small for fingerprints
+breath,methyl mercaptan,CS,True,alliaceous;cabbage;creamy;garlic;oily;savory;sulfurous;vegetable,3,2,1.0,in GS+LF
+breath,dimethyl sulfide,CSC,True,berry;cabbage;cooked;creamy;fishy;fruity;green;onion;pungent;radish;sulfurous;sweet;tomato;vegetable,4,3,1.0,in GS+LF

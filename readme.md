@@ -93,7 +93,10 @@ floors by 0.097 AUC, positive in every fold and on molecules far from training. 
 molecules it did no better than averaging the labels of the ten most similar training
 molecules. Milestone 3 (`plan-milestone-3.md`) repeated the protocol on all 112 well-populated
 labels: 71 pass, and the margin transfers to Arctander. But on molecules unlike the training
-set, neither dataset shows learning beyond similarity.
+set, neither dataset shows learning beyond similarity for that forest. Milestone 4
+(`plan-milestone-4.md`) tested the published graph network (OpenPOM, reimplemented). Under rule 3
+it keeps 0.881 of its published 0.887 macro AUC, and on unfamiliar molecules it beats
+similarity lookup clearly (+0.08 AUC), so the earlier limit belongs to fingerprint forests.
 
 ```
 python -m venv .venv && .venv/bin/pip install -e '.[test]'
