@@ -150,3 +150,24 @@ def group_bootstrap_margin(y: np.ndarray, model: np.ndarray, floors: Sequence[np
     return {"margin": float(point), "lo": float(lo), "hi": float(hi), "n_boot": len(draws),
             "skipped": skipped, "molecules": int(len(y)), "positives": int(y.sum()),
             "groups": int(len(uniq))}
+
+
+def joint_group_bootstrap(stat: Callable[[np.ndarray], float], groups: np.ndarray, *,
+                          n_boot: int = 2000, seed: int = 0) -> dict:
+    """Point estimate and 95% percentile interval of ``stat(indices)`` under resampling of
+    **groups** with replacement. One resample is shared by everything ``stat`` computes, so
+    a macro-mean over labels is bootstrapped jointly. NaN draws are dropped and counted."""
+    groups = np.asarray(groups)
+    uniq, inverse = np.unique(groups, return_inverse=True)
+    members = [np.nonzero(inverse == g)[0] for g in range(len(uniq))]
+    rng = np.random.default_rng(seed)
+    point = float(stat(np.arange(len(groups))))
+    draws = []
+    for _ in range(n_boot):
+        idx = np.concatenate([members[g] for g in rng.integers(0, len(uniq), len(uniq))])
+        draws.append(stat(idx))
+    draws = np.asarray(draws, float)
+    ok = draws[~np.isnan(draws)]
+    lo, hi = np.percentile(ok, [2.5, 97.5])
+    return {"estimate": point, "lo": float(lo), "hi": float(hi), "n_boot": int(len(ok)),
+            "nan_draws": int(np.isnan(draws).sum()), "groups": int(len(uniq))}

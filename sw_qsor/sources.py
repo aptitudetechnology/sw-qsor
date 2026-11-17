@@ -50,6 +50,17 @@ GSLF = Source(
     ),
 )
 
+# The two per-source files merged into GS+LF, same commit and vocabulary. Used by milestone 3
+# Phase A to compare each source's agreement with Arctander.
+_OPENPOM_NOTE = ("Repository is MIT; no licence file accompanies the dataset itself. The source "
+                 "database is commercial in origin and no stated term covers redistribution.")
+GOODSCENTS = Source(name="openpom_goodscents", repo="BioMachineLearning/openpom",
+                    commit=OPENPOM_COMMIT, subdir="openpom/data/curated_datasets",
+                    files=("curated_goodcents.csv",), repo_licence="MIT", note=_OPENPOM_NOTE)
+LEFFINGWELL = Source(name="openpom_leffingwell", repo="BioMachineLearning/openpom",
+                     commit=OPENPOM_COMMIT, subdir="openpom/data/curated_datasets",
+                     files=("curated_leffingwell.csv",), repo_licence="MIT", note=_OPENPOM_NOTE)
+
 # Processed files only. Raw spreadsheets, upstream processing code, and Mayhew's large
 # supplementary files (S1/S3/physics, ~53 MB) are not needed for milestone 1.
 _PYRFUME_FILES = {

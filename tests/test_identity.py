@@ -40,3 +40,11 @@ def test_collapse_duplicates_unions_labels_and_drops_missing():
     keep, m = collapse_duplicates(["A", "B", "A", None], y)
     assert keep.tolist() == [0, 1]
     assert m.tolist() == [[1, 0, 1], [0, 1, 0]]
+
+
+def test_independence_classes():
+    from sw_qsor.experiment import independence
+    sm = {"A": ["CCCCCCOC(C)=O", "c1ccccc1C=O"],
+          "B": ["CCCCCCOC(C)=O", "CCCCCCCOC(C)=O", "ClC(Cl)(Cl)Cl"]}
+    c = independence(sm, "A")["classes"]["B"]
+    assert len(c["inside"]) == 1 and len(c["near"]) == 1 and len(c["independent"]) == 1

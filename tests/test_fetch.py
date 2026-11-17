@@ -67,6 +67,6 @@ def test_provenance_roundtrip_and_verify_detects_tampering(tmp_path, monkeypatch
 
 
 def test_pinned_sources_are_pinned_to_full_commits():
-    for s in [sources.GSLF, *sources.PYRFUME.values()]:
+    for s in [sources.GSLF, sources.GOODSCENTS, sources.LEFFINGWELL, *sources.PYRFUME.values()]:
         assert len(s.commit) == 40 and s.commit in s.url("x")
-        assert "manifest.toml" in s.files or s is sources.GSLF
+        assert "manifest.toml" in s.files or s.repo == "BioMachineLearning/openpom"

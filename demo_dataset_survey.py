@@ -26,15 +26,10 @@ from sw_qsor.evaluate import (
     pooled_micro_auc,
     summarise_labels,
 )
-from sw_qsor.experiment import gslf_experiment
+from sw_qsor.experiment import gslf_experiment, independence
 from sw_qsor.floors import KNN_K, base_rate, knn_1d
 from sw_qsor.identity import key_table, overlap_matrix
-from sw_qsor.splits import (
-    COMPONENT_THRESHOLD,
-    N_FOLDS,
-    morgan_fingerprints,
-    similarity_components,
-)
+from sw_qsor.splits import COMPONENT_THRESHOLD, N_FOLDS
 
 REPO_ROOT = Path(__file__).resolve().parent
 PYRFUME = ["arctander_1960", "mayhew_2022", "keller_2016", "dravnieks_1985", "abraham_2012"]
@@ -85,38 +80,24 @@ def overlap_section(tables, smiles):
     return sets
 
 
-def independence_section(tables, sets, anchor="GS+LF"):
+def independence_section(smiles, anchor="GS+LF"):
     """Union all datasets, dedupe by key, group by rule 3, and classify each molecule of each
-    dataset relative to the anchor."""
-    reps = {}
-    for name, t in tables.items():  # anchor first, so its SMILES represent shared keys
-        for s, k in zip(t.smiles, t.key):
-            if pd.notna(k):
-                reps.setdefault(k, s)
-    keys = list(reps)
-    fps = morgan_fingerprints([reps[k] for k in keys])
-    groups = similarity_components(fps)
-    group_of = dict(zip(keys, groups))
-    anchor_groups = {group_of[k] for k in sets[anchor]}
-
-    print(f"== Independence from {anchor} under rule 3 (union of all datasets, {len(keys)} "
-          f"distinct molecules, components at Tanimoto >= {COMPONENT_THRESHOLD})\n")
+    dataset relative to the anchor (sw_qsor.experiment.independence)."""
+    ind = independence(smiles, anchor)
+    sets, group_of, classes = ind["keys"], ind["group_of"], ind["classes"]
+    print(f"== Independence from {anchor} under rule 3 (union of all datasets, "
+          f"{len(group_of)} distinct molecules, components at Tanimoto >= "
+          f"{COMPONENT_THRESHOLD})\n")
     rows = []
-    for name, ks in sets.items():
-        if name == anchor:
-            continue
-        inside = ks & sets[anchor]
-        near = {k for k in ks - inside if group_of[k] in anchor_groups}
-        indep = ks - inside - near
-        rows.append({"dataset": name, "molecules": len(ks), f"in {anchor}": len(inside),
-                     f"not in {anchor}, same group": len(near),
-                     "independent": len(indep),
-                     "independent %": round(100 * len(indep) / len(ks)),
-                     "independent groups": len({group_of[k] for k in indep})})
+    for name, c in classes.items():
+        n = len(sets[name])
+        rows.append({"dataset": name, "molecules": n, f"in {anchor}": len(c["inside"]),
+                     f"not in {anchor}, same group": len(c["near"]),
+                     "independent": len(c["independent"]),
+                     "independent %": round(100 * len(c["independent"]) / n),
+                     "independent groups": len({group_of[k] for k in c["independent"]})})
     print(pd.DataFrame(rows).set_index("dataset").to_string(), "\n")
-
-    others = set().union(*(ks for n, ks in sets.items() if n != anchor))
-    union_indep = {k for k in others if group_of[k] not in anchor_groups}
+    union_indep = set().union(*(c["independent"] for c in classes.values()))
     print(f"All non-{anchor} datasets together: {len(union_indep)} distinct molecules "
           f"independent of {anchor}.\n")
 
@@ -191,8 +172,8 @@ def floors_section(data_dir):
 def main(data_dir, floor_csv=None):
     smiles = load_smiles(data_dir)
     tables = identity_section(smiles)
-    sets = overlap_section(tables, smiles)
-    independence_section(tables, sets)
+    overlap_section(tables, smiles)
+    independence_section(smiles)
     results, *_ = floors_section(data_dir)
     if floor_csv:
         _, _, br = results["base rate"]

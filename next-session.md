@@ -77,6 +77,13 @@ lookup does"**. RF-Morgan 0.826 vs floor 0.730 (RF on MW), margin +0.097 in 5/5 
 does not beat it. Results in `plan-milestone-2.md`. **Next: write `plan-milestone-3.md` (112 labels,
 Arctander mapping and provenance check) before running anything.**
 
+Milestone 3 plan committed (`ee2eaa0`). **Phase A done**, labels only: Arctander has 63 mapped
+GS+LF labels (vanilla/vanillin merged); its 233 unlabelled molecules are treated as missing.
+GoodScents tracks Arctander *less* than Leffingwell does (κ difference −0.138), so under the
+fixed rule Phase C is an external test, though Leffingwell may draw on Arctander. Phase C's
+labels: 25, on 805 labelled independent molecules. **Next: Phase B (all 112 labels on GS+LF,
+about 70–90 minutes, one run).**
+
 ## 2. Amend rule 3 before any split is written (~45 min)
 
 The survey found 2,236 of 4,983 GS+LF molecules (45%) are acyclic and collapse into one empty

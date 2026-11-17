@@ -56,3 +56,37 @@ def gslf_experiment(archive_dir: str | Path) -> Experiment:
     nn = cross_fold_nn_similarity(fps, folds)
     return Experiment(smiles=smiles, keys=keys, labels=labels, Y=Y, mw=mw, fps=fps,
                       groups=groups, folds=folds, nn=nn, nn_bins=nn_bin_labels(nn))
+
+
+def independence(smiles_by_dataset: dict, anchor: str) -> dict:
+    """Classify every dataset's molecules relative to ``anchor`` under rule 3.
+
+    All datasets are unioned and deduplicated by connectivity key (the anchor's SMILES
+    represent shared keys, then datasets in the order given), grouped by similarity
+    components, and each non-anchor molecule is ``inside`` the anchor, ``near`` (absent but
+    sharing a group with an anchor molecule) or ``independent``.
+
+    Returns ``{"keys": {name: set}, "group_of": {key: group}, "smiles_of": {key: smiles},
+    "classes": {name: {"inside", "near", "independent": set}}}``.
+    """
+    import pandas as pd
+
+    names = [anchor] + [n for n in smiles_by_dataset if n != anchor]
+    tables = {n: key_table(smiles_by_dataset[n]) for n in names}
+    sets = {n: set(t.key.dropna()) for n, t in tables.items()}
+    smiles_of: dict = {}
+    for n in names:
+        for s, k in zip(tables[n].smiles, tables[n].key):
+            if pd.notna(k):
+                smiles_of.setdefault(k, s)
+    keys = list(smiles_of)
+    groups = similarity_components(morgan_fingerprints([smiles_of[k] for k in keys]))
+    group_of = dict(zip(keys, groups.tolist()))
+    anchor_groups = {group_of[k] for k in sets[anchor]}
+    classes = {}
+    for n in names[1:]:
+        inside = sets[n] & sets[anchor]
+        near = {k for k in sets[n] - inside if group_of[k] in anchor_groups}
+        classes[n] = {"inside": inside, "near": near, "independent": sets[n] - inside - near}
+    return {"keys": sets, "group_of": group_of, "smiles_of": smiles_of, "classes": classes,
+            "anchor_groups": anchor_groups}

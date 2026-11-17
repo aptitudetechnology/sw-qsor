@@ -204,3 +204,63 @@ nearest-GS+LF-neighbour distribution of the 901 is reported with the results.
    anything is computed.
 4. **The Q1 bands are half / 10 labels.** Their only purpose is to make the stated expectation
    checkable.
+
+## Phase A results (17 Nov 2026)
+
+Run with `python demo_milestone3_provenance.py`, using labels and structures only. No model
+was fitted. Outputs: `reports/05_arctander_vocab.csv` and `reports/05_phase_c_labels.csv`.
+
+### A1. Vocabulary
+
+- The fixed mapping covers 67 of Arctander's 77 labels (59 exact, 8 variants), 64 of them
+  among the 112, as planned. **But those 64 map onto 63 GS+LF labels:** Arctander has both
+  `vanilla` and `vanillin`, so the approved `vanillin`→`vanilla` mapping merges two columns.
+  Merging is the only coherent reading of an approved many-to-one mapping, so they are
+  unioned: a molecule is `vanilla` if Arctander gives either label.
+- **Error in the review note:** "dropping it leaves 63" was wrong. Dropping `vanillin` would
+  also have left 63.
+- Arctander: 3,102 stimuli. 278 have CID 0 (structure never resolved) and are dropped,
+  leaving 2,751 molecules. **233 molecules carry no label at all and are treated as missing,
+  not negative.** Their text descriptions show the labels went unextracted. One entry reads
+  "simultaneously non-floral and heavy-sweet-floral" and has no `floral` label. This is
+  decided here, before any model sees Arctander. It also says Arctander's labels are an
+  imperfect reading of its own text.
+- That leaves 2,488 labelled Arctander molecules by connectivity key.
+
+### A2. Provenance
+
+- **Plan error:** Leffingwell's file does not use the same 138 labels; it lacks `cortex`
+  (137). That label is not mapped, so A2 is unaffected.
+- Molecules in GoodScents (3,918), Leffingwell (3,388) and labelled Arctander together:
+  **1,058**. Labels with ≥ 20 Arctander positives among them: **39**.
+
+| | Macro-mean κ over 39 labels |
+|---|---|
+| GoodScents vs Arctander | 0.421 |
+| Leffingwell vs Arctander | 0.559 |
+| *GoodScents vs Leffingwell (not in the plan; context only, decides nothing)* | *0.485* |
+
+**κ(GS, Arc) − κ(LF, Arc) = −0.138, 95% group-bootstrap interval [−0.163, −0.112]** (705
+groups, 2,000 resamples). Only 3 of the 39 labels favour GoodScents: hyacinth, amber and
+orange, all with 21–22 Arctander positives.
+
+**Decision, under the fixed rule: Phase C is reported as an external test**, with the plan's
+caveat.
+
+What the rule could not see, as the plan anticipated: the asymmetry runs the *other* way.
+Leffingwell, half of GS+LF, is the source that tracks Arctander most closely of the three
+pairs. That fits Leffingwell drawing partly on Arctander, but does not establish it: three
+sources agreeing at 0.42–0.56 could also reflect shared perfumery convention. Phase C's
+results should be read with that possibility in mind. Separately, agreement between sources of
+only 0.42–0.56 caps what any model trained on one source can score on another.
+
+### A3. Phase C's label set
+
+- Arctander molecules independent of GS+LF: **901**, as in report 03. Of those, **805** are
+  labelled.
+- **25 mapped labels have ≥ 20 positives** among the 805, and these are Phase C's labels:
+  floral, green, herbal, woody, fruity, balsamic, rose, oily, camphoreous, spicy, ethereal,
+  musty, mint, earthy, musk, amber, medicinal, fatty, citrus, winey, anisic, nutty, leafy,
+  animal, caramellic.
+
+Phase B can proceed. Phase C waits for Phase B's results to be committed.
