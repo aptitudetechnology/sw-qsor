@@ -62,11 +62,17 @@ so rather than modelling something too small and calling it a baseline.
 
 ## Before the counting: a literature survey
 
-`research_prompts/01_datasets.md` asks a deep-research tool to establish what exists, how large
-each dataset really is in distinct molecules, and -- the part that matters most -- how published
-work on these data has been split and whether any non-structural baseline was reported. Its
-output should fill the candidate table above and may add datasets we have not heard of. Its
-findings are leads to verify, not facts, and are audited the way sw-enose audits such reports.
+Two prompts, run in that order:
+
+- `research_prompts/01_datasets_mvp.md` asks one question only -- how many **distinct
+  molecules** each dataset holds, and whether it can be downloaded. That is what the decision
+  rule above turns on, and it is short enough for a research tool to answer properly.
+- `research_prompts/01_datasets_full.md` adds the rest: published benchmarks, how each split
+  its data, whether any non-structural baseline was reported, and code availability. Worth
+  running only on the datasets the MVP shows are large enough to care about.
+
+Findings from either are leads to verify, not facts, and are audited the way sw-enose audits
+such reports.
 
 ## Deliverables
 
