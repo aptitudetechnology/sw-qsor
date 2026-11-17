@@ -63,6 +63,13 @@ Step 4 done: floors in `sw_qsor/floors.py` + `sw_qsor/evaluate.py`, second half 
 rule. Step 4 also found that pooling out-of-fold scores within distance bins biased the base
 rate to 0.43; fixed by within-fold ranks (`evaluate.within_fold_ranks`).
 
+Step 5 done: `plan-milestone-2.md` fixes the label (`floral`), the model (one random forest
+on Morgan bits), two floors (MW k-NN and the same forest on MW), a neighbour-lookup reference,
+a shuffled-label pipeline check, and the bar (mean paired margin ≥ 0.05 over 5/5 folds, plus a
+group-bootstrap interval above 0 in the < 0.5 similarity bin). **Milestone 1 is complete. The
+next session runs milestone 2 exactly as written, with no changes to that file before the
+run.**
+
 ## 2. Amend rule 3 before any split is written (~45 min)
 
 The survey found 2,236 of 4,983 GS+LF molecules (45%) are acyclic and collapse into one empty
