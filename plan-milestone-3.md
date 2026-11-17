@@ -1,0 +1,206 @@
+# Plan: milestone 3, all well-populated labels, and whether anything beats similarity
+
+**Fixed 17 Nov 2026, before anything below has been run.** Changes after this commit are a new
+plan with a new date, not edits to this one. The facts it
+relies on are label counts and vocabulary, not model results: positives per label and per
+distance bin, Arctander's column names, and the layout of OpenPOM's separate GoodScents and
+Leffingwell files.
+
+## What milestone 2 left open
+
+`floral` beat the better molecular-weight floor by 0.097 AUC, including on molecules far from
+training. But below 0.5 similarity the forest was no better than averaging the labels of the
+ten most similar training molecules (+0.004 [−0.025, +0.034]). Milestone 3 asks whether that
+holds across labels, and whether it holds on a different dataset.
+
+## Questions
+
+- **Q1, breadth.** For which of the 112 labels with ≥ 50 positives does structure beat the
+  floor? Across labels, does the margin persist on molecules far from training?
+- **Q2, beyond similarity (co-primary).** Pooled across labels, does RF-Morgan beat
+  kNN-Tanimoto on molecules with no training neighbour at 0.5 or above? One label could not
+  answer this: floral had 172 distant positives. Across labels there are 4,079.
+- **Q3, external.** Trained on GS+LF, how do the models do on Arctander molecules independent of
+  GS+LF? Q3 runs only after Phase A has settled what such a test would mean.
+
+## Order, one commit per phase
+
+**A (labels only, no models) → B (GS+LF run) → C (Arctander run).** Each phase's results are
+committed before the next phase starts. Phase A uses no structural model and cannot be tuned
+to one.
+
+---
+
+## Phase A: Arctander vocabulary and label provenance
+
+### A1. Vocabulary mapping, fixed here by name alone
+
+The mapping is fixed by label *name*, not by how labels co-occur on shared molecules. Fitting
+it to the data would make the provenance check circular.
+
+- **Exact names:** the 59 Arctander labels that appear verbatim among GS+LF's 138 labels.
+- **Spelling variants** (8): `ambre`→`amber`, `camphoraceous`→`camphoreous`,
+  `caramelic`→`caramellic`, `leather`→`leathery`, `minty`→`mint`, `musky`→`musk`,
+  `sulfuraceous`→`sulfurous`, `vanillin`→`vanilla`.
+- **Unmapped** (10): `acid`, `coco` (ambiguous between cocoa and coconut), `lilac`, `mimosa`,
+  `mossy`, `narcissus`, `orange-blossom`, `pepper`, `rooty`, `tarry`. No semantic mappings
+  are made, such as `lilac`→`floral`.
+
+That gives 64 mapped labels among the 112. `orange-blossom`→`orangeflower` is excluded
+because orangeflower has 33 GS+LF positives, below the 50 needed to be among the 112.
+
+Arctander molecules: `behavior_1.csv` is indexed by stimulus (3,102), mapped to CIDs through
+`stimuli.csv` and to structures through `molecules.csv` (2,751). Stimuli without a CID are
+dropped. Stimuli sharing a connectivity key have their labels unioned, as was done for GS+LF.
+All of these counts are reported.
+
+### A2. Is GoodScents labelling derived from Arctander?
+
+GoodScents entries often quote Arctander, so labels on disjoint molecules may still not be
+independent. The reference point is Leffingwell, the other source in GS+LF.
+
+- Fetch OpenPOM `curated_goodcents.csv` and `curated_leffingwell.csv` from the pinned commit
+  `5434c4b`. They use the same 138-label vocabulary as the merged file.
+- Molecules present in GoodScents, Leffingwell and Arctander, by connectivity key: count and
+  report.
+- For each mapped label with ≥ 20 positives in Arctander on those molecules: Cohen's κ
+  between GoodScents and Arctander, and between Leffingwell and Arctander.
+- Statistic: the macro-mean of κ(GS, Arc) − κ(LF, Arc), with a 95% interval from 2,000 group
+  bootstraps (rule-3 groups, seed 0).
+
+**Decision, fixed now:**
+- If the mean difference is ≥ 0.10 and its interval excludes 0, **Phase C is reported as a
+  test of cross-source consistency, not as independent validation.** Phase C runs either way;
+  only its framing changes.
+- Otherwise Phase C is reported as an external test, carrying the caveat below.
+
+**Limit of this check:** it detects derivation specific to GoodScents. If Leffingwell also
+drew on Arctander, both κs rise together and the check misses it. Absolute κ values are
+reported so that a reader can judge.
+
+### A3. Phase C's label set, counted in Phase A
+
+For each of the 64 mapped labels: positives among Arctander's 901 independent molecules (see
+`reports/03_overlap.md`). **Phase C scores the labels with ≥ 20 positives there.** The list is
+committed with Phase A.
+
+---
+
+## Phase B: GS+LF, all 112 labels
+
+The protocol is milestone 2's, per label, with nothing changed:
+
+- **Data and folds:** `gslf_experiment`, the same folds.
+- **Models:** RF-Morgan, RF-MW, F-MW (k = 50) and kNN-Tanimoto (k = 10), plus RF-Morgan on
+  shuffled labels, all exactly as in `sw_qsor/models.py` and `sw_qsor/floors.py`.
+- **Separate per label:** one forest per label, not a multi-output forest, so that floral's
+  numbers reproduce milestone 2's.
+- **Floor:** per label per fold, the higher of F-MW and RF-MW.
+- **Cost:** about 1,700 forest fits, an estimated 70–90 minutes. It is run once.
+
+### Checks, before anything is read
+
+1. **Pipeline:** macro-mean shuffled-label AUC across the 112 labels must lie in 0.48–0.52.
+   If not, stop and find the leak.
+2. **Reproduction:** floral's per-fold AUCs for all four models must equal milestone 2's to
+   three decimal places. If not, stop and find out why.
+
+### Q1, per label
+
+Milestone 2's criteria, minus the distant-bin condition, which moves to the pooled test:
+
+- **Pass:** mean paired margin ≥ 0.05, and the margin is > 0 in all 5 folds.
+- **Fail:** mean paired margin < 0.02, or the margin is ≤ 0 in 2 or more folds.
+- **Inconclusive:** anything else.
+
+**False passes.** With no true margin, all five folds come out positive about 1 time in 32.
+Adding the 0.05 mean margin makes a pass rarer still, so chance passes among 112 labels should
+number about 3 at most. Results are reported by frequency band, since fold SD runs from about
+0.10 for rare labels to 0.02 for common ones.
+
+**How Q1 is read, stated in advance:**
+- *Broad:* ≥ 56 labels (half) pass.
+- *Narrow:* 10–55 pass.
+- *Absent:* fewer than 10 pass.
+
+`plan.md` predicted *narrow*: a small number of common descriptors learnable, the rest not.
+
+### Q1, pooled distant test
+
+Over the **91 labels with ≥ 10 positives in the < 0.5 bin**: the macro-mean margin of RF-Morgan
+over the floor. For each label, the floor is the higher of F-MW and RF-MW in each resample.
+Scores are ranked within folds. The 95% interval comes from 2,000 **joint** group bootstraps:
+one resample of groups is applied to every label at once, seed 0.
+
+- **Structure signal persists far from training:** the interval lies entirely above 0.
+- **Otherwise:** it is not shown to persist.
+
+### Q2, beyond similarity
+
+Same 91 labels, same joint bootstrap: the macro-mean margin of RF-Morgan over kNN-Tanimoto in
+the < 0.5 bin.
+
+- **Learning beyond similarity:** the interval lies entirely above 0.
+- **No evidence beyond similarity:** the interval includes 0. The interval's width is
+  reported, to show how large an advantage could have gone undetected.
+- **Worse than lookup:** the interval lies entirely below 0.
+
+Secondary, reported but not deciding anything: the same margin in each of the four bins, and
+the number of labels individually better or worse than kNN-Tanimoto overall.
+
+---
+
+## Phase C: Arctander, external
+
+Runs after Phases A and B are committed. Arctander is not touched by any model before then.
+
+- **Train** on all 4,981 GS+LF molecules, with no folds. The models and settings are the same
+  as in Phase B.
+- **Test** on Arctander's 901 independent molecules (838 groups), using the labels fixed in A3.
+  None of these molecules is in GS+LF, and none shares a rule-3 group with a GS+LF molecule.
+- **Per label:** AUC for RF-Morgan, RF-MW, F-MW and kNN-Tanimoto. The floor is the higher of
+  F-MW and RF-MW.
+- **Pooled:** the macro-mean margin of RF-Morgan over the floor, and over kNN-Tanimoto, with
+  2,000 group bootstraps over Arctander's groups, seed 0.
+
+**Reading:**
+- *Transfers:* the pooled margin over the floor has its interval entirely above 0.
+- *Beyond similarity on a new source:* the pooled margin over kNN-Tanimoto has its interval
+  entirely above 0.
+- Either can fail on its own. Both outcomes are framed according to A2's decision.
+
+**Caveat whatever A2 finds.** Independence here means no GS+LF molecule at Tanimoto ≥ 0.70.
+These molecules are new to GS+LF but not necessarily unfamiliar in structure, so the
+nearest-GS+LF-neighbour distribution of the 901 is reported with the results.
+
+---
+
+## Not in milestone 3
+
+- Any change to the models, features, k, thresholds or seeds; hyperparameter search; neural
+  networks; pretrained embeddings; multi-output models.
+- Labels with < 50 GS+LF positives.
+- Keller, Dravnieks and Mayhew.
+- Anything generative.
+
+## Deliverables
+
+- `sw_qsor/sources.py` gains the two OpenPOM per-source files. `sw_qsor/datasets.py` gains
+  loaders for them and for Arctander labels by molecule. The vocabulary mapping is committed as
+  a data file with the plan. κ and the joint group bootstrap go in `sw_qsor/evaluate.py`, with
+  tests.
+- `demo_milestone3_provenance.py` (Phase A), `demo_milestone3_gslf.py` (Phase B) and
+  `demo_milestone3_arctander.py` (Phase C) are callers of the package. Each prints its checks,
+  its measurements and its verdict.
+- Phase B's per-label table goes in `reports/05_m3_per_label.csv`.
+- A results section is appended here per phase, whatever the outcome.
+
+## Decided at review (17 Nov 2026), all four as drafted
+
+1. **Q2 is co-primary.** The alternative was to keep kNN-Tanimoto as a reported reference only.
+2. **`vanillin`→`vanilla` is kept.** It is the one mapping that is more than spelling, because
+   vanillin is a molecule, not a descriptor. Dropping it would have left 63 mapped labels.
+3. **The A2 threshold is a κ difference ≥ 0.10.** It is arbitrary, and it is fixed here before
+   anything is computed.
+4. **The Q1 bands are half / 10 labels.** Their only purpose is to make the stated expectation
+   checkable.
