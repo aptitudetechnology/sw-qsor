@@ -19,7 +19,20 @@ Two halves, and the second is the point:
    this area depend entirely on how the data was split, and the splits reported are often not
    the hard ones.
 
-## Why it is separate from sw-enose
+## Scope: prediction, not design
+
+The project predicts the perceptual properties of molecules that already exist and have been
+characterised. It does not generate novel molecules to meet a target odour profile.
+
+That line is drawn deliberately rather than by accident of what has been built so far.
+Predicting what a known compound smells like is a question about published measurements.
+Generating new compounds with specified properties is molecular design, which carries
+obligations this project is not set up to meet — and the two get conflated easily once a model
+that scores structures exists, because running it backwards is a small technical step and a
+large change in what the project is.
+
+If generation ever becomes interesting here, it starts with a fresh decision and its own
+document, not by extending a scoring model.
 
 [sw-enose](https://github.com/aptitudetechnology/sw-enose) is a biomimetic nose: air to mucus by
 Henry's law, mucus to receptor activation by measured EC50 values, then the fly's own processing

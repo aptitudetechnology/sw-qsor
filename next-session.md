@@ -74,6 +74,19 @@ same session that measures the floor — the gap between them is what keeps the 
   that there is a short list, but it is a research task, not a coding one.
 - Any model. Milestone 2 only begins when milestone 1 is written up.
 
+## A practical note on running the research
+
+`reports/01_dataset_survey.md` was produced in-session with ordinary web search and file
+retrieval rather than by a deep-research tool, and that worked better than expected: every
+molecule count in it was obtained by downloading the file and counting, which no research tool
+would have done. Prefer that route for anything where the answer is a number in a file.
+
+Two literature searches in the sibling project were stopped by a safety classifier, for reasons
+that were never visible and did not obviously match the material. Nothing in this project's
+subject matter resembles what was blocked, and today's survey ran cleanly, so this is recorded
+as a known quirk rather than an expected obstacle. If a prompt does get stopped, the fallback
+is the same as sw-enose's: run it externally and audit the result on return.
+
 ## Packaging and code sharing, settled
 
 Three questions that look like one.
