@@ -19,6 +19,9 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest"]
+# milestone 4: CPU PyTorch (install from https://download.pytorch.org/whl/cpu) and the
+# iterative stratified split used by OpenPOM for check C1
+pom = ["torch", "scikit-multilearn"]
 
 [tool.setuptools.packages.find]
 include = ["sw_qsor*"]

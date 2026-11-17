@@ -72,3 +72,16 @@ def test_auc_columns_matches_sklearn_with_ties():
     for j in range(5):
         assert abs(got[j] - roc_auc_score(Y[:, j], S[:, j])) < 1e-12
     assert np.isnan(got[5])
+
+
+def test_weighted_lookup_matches_brute_force_and_breaks_ties():
+    from sw_qsor.models import tanimoto_weighted_lookup
+    fps = morgan_fingerprints(SMI)
+    y = np.array([1, 0, 1, 0, 0, 1, 0, 1])
+    got = tanimoto_weighted_lookup(fps[:6], y[:6], fps[6:], k=4)
+    for i, fp in enumerate(fps[6:]):
+        s = np.array(DataStructs.BulkTanimotoSimilarity(fp, fps[:6]))
+        nn_ = np.argsort(-s, kind="stable")[:4]
+        assert abs(got[i] - (s[nn_] @ y[:6][nn_]) / s[nn_].sum()) < 1e-12
+    multi = tanimoto_weighted_lookup(fps[:6], np.c_[y[:6], 1 - y[:6]], fps[6:], k=4)
+    np.testing.assert_allclose(multi[:, 0], got)

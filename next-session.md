@@ -25,13 +25,27 @@ before). Every result it led to is recorded in `plan.md`, `plan-milestone-2.md` 
   All three are built into the milestone 4 draft.
 - **sw-enose** received an audit note, `sw-enose/reports/sw-qsor-audit-m2or-splits.md`. Its
   verdict stands; its scaffold folds and its documented floor needed correcting.
+- **`note-2-from-sw-enose.md`** (read it) accepts the corrections and withdraws the first note's
+  milestone 4 question; Lookup-W is the agreed response. sw-enose has corrected its documented
+  floor (`3124ca3`). The note also reports:
+  - neighbour lookup on receptors fails too (−0.034, 0 of 5 folds);
+  - `abraham_2012` re-reports Nagata's thresholds exactly;
+  - 163 of its 180 molecules are inside GS+LF;
+  - only 59 receptors have ≥ 5 positives.
+- **sw-enose also holds a reply** to the first note, `sw-enose/reports/reply-from-sw-qsor-to-note.md`.
+  It is partial: a safety classifier stopped the write, and the file now points to
+  `plan-milestone-4.md` for the remaining correction. It is uncommitted in sw-enose.
 
 ## 1. Review `plan-milestone-4.md` (DRAFT)
 
 The question: does OpenPOM's published network beat neighbour lookup on unfamiliar molecules,
 and how much of its published 0.8872 survives rule 3? It is reimplemented in plain PyTorch on
 the CPU with OpenPOM's own settings, which are read from its files at the pinned commit and
-quoted in the plan. The draft ends with five points open for review.
+quoted in the plan. The draft ends with five points open for review. Since then it has gained:
+- **D1:** sw-enose coverage;
+- **D1b:** tiny molecules (≤ 5 fingerprint bits) reported as a limit of fingerprints, scoped
+  so the claim does not cover every structure-based model;
+- milestone 5's honest scope in "Looking ahead".
 
 ## 2. Before committing the plan
 
@@ -47,18 +61,32 @@ quoted in the plan. The draft ends with five points open for review.
 ## 3. Run milestone 4
 
 Checks in order: C1 (the reimplementation reproduces OpenPOM's single-model ~0.87 under its own
-split), C2 (permuted labels give 0.48–0.52), C3 (floral continuity). Then Q1, Q2, S1 and S2.
+split), C2 (permuted labels give 0.48–0.52), C3 (floral continuity). Then D1/D1b (structure
+only, before any result is read), then Q1, Q2, S1 and S2.
 Results go in the plan file, whatever they are.
 
 ## Then: milestone 5 is for sw-enose
 
 Decided 17 Nov 2026. Milestone 5 plans what sw-qsor delivers to sw-enose, building on milestone
 4's outputs:
-- D1's coverage table: which sw-enose molecules lie within reach of structure-based prediction;
-- a POM embedding from a model trained on all of GS+LF after milestone 4, as a candidate
-  feature for sw-enose's receptors with known agonists;
+- D1's coverage table, and D1b's tiny-molecule finding, which sw-enose will cite;
+- a POM embedding from a model trained on all of GS+LF after milestone 4;
 - the reusable code (`pom.py`, Lookup-W, rule-3 grouping).
-Write its plan with sw-enose's needs as the starting point, not sw-qsor's.
+Write its plan with sw-enose's needs as the starting point, not sw-qsor's. **Its honest scope**,
+from note 2: the constraint is labels, not features. 719 of 1,020 receptors have no agonist, and
+only 59 have ≥ 5 positives. So the question is whether a learned embedding beats sw-enose's 20
+descriptors on those 59, not whether it supplies missing receptor data.
+
+## Open, not yet scheduled: the compilation check
+
+From `note-2-from-sw-enose.md`, section 2. Two sources can share molecules legitimately, so
+InChIKey overlap cannot reveal that one re-reports the other. Exact agreement of values on
+shared molecules can. Two places it could go, still to decide:
+- **A label-only addendum to milestone 3 Phase A, marked as after the fact:** on molecules
+  shared by GoodScents, Leffingwell and Arctander, how often a source's full label set equals
+  Arctander's mapped set. This bears on Phase C's framing as an external test.
+- **Milestone 5:** exact numeric agreement across Pyrfume's numeric archives (for example
+  `abraham_2012` against Nagata), if milestone 5 uses them.
 
 ## Standing practice (unchanged)
 

@@ -57,3 +57,28 @@ def tanimoto_neighbours(train_fps: Sequence, test_fps: Sequence, k: int = TANIMO
     train_fps = list(train_fps)
     return np.array([np.argsort(-np.asarray(DataStructs.BulkTanimotoSimilarity(fp, train_fps)),
                                 kind="stable")[:k] for fp in test_fps])
+
+
+LOOKUP_W_K = 50  # plan-milestone-4.md, fixed at review; not tuned
+
+
+def tanimoto_weighted_lookup(train_fps: Sequence, Y_train: np.ndarray, test_fps: Sequence,
+                             k: int = LOOKUP_W_K) -> np.ndarray:
+    """Lookup-W: similarity-weighted label average over the ``k`` most Tanimoto-similar
+    training molecules (ties by training order), score = sum(sim * y) / sum(sim).
+
+    Unlike :func:`tanimoto_knn` (k = 10, 11 possible values), this rarely ties, so it is not
+    handicapped on rare labels. A test molecule whose k neighbours all have similarity 0
+    gets the unweighted mean of those neighbours. ``Y_train`` may be 1-D or (n, labels)."""
+    Y = np.asarray(Y_train, float)
+    one = Y.ndim == 1
+    Y = Y[:, None] if one else Y
+    k = min(k, len(train_fps))
+    train_fps = list(train_fps)
+    out = np.empty((len(test_fps), Y.shape[1]))
+    for i, fp in enumerate(test_fps):
+        s = np.asarray(DataStructs.BulkTanimotoSimilarity(fp, train_fps))
+        nn_ = np.argsort(-s, kind="stable")[:k]
+        w = s[nn_]
+        out[i] = (w @ Y[nn_]) / w.sum() if w.sum() > 0 else Y[nn_].mean(0)
+    return out[:, 0] if one else out
