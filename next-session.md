@@ -107,9 +107,25 @@ Results are in `plan-milestone-4.md`. All checks passed (C1 0.876, C2 0.505, C3 
 - **Milestone 3 revised:** against Lookup-W, the forest is worse than lookup far out.
 - **Both pre-run expectations were wrong.**
 
-**Next: write `plan-milestone-5.md` for sw-enose.** Start from note 2's 59 receptors with ≥ 5
-positives and from the bondless limit. The candidate representation is POM's 256-d embedding,
-from one model trained on all of GS+LF.
+## Milestone 5: plan drafted, awaiting review
+
+`plan-milestone-5.md` (DRAFT). The question: does POM's learned representation predict
+sw-enose's receptor responses better than its own 20 descriptors, on the 59 receptors with
+at least 5 positives? Recomputed here from sw-enose's data rather than cited: 59 receptors,
+2,730 pairs, 517 positives, median 7 positives each; rule-3 groups on the 180 molecules give
+115 groups and 5 folds of 36; every fold has at least 69 positives; no molecule is bondless,
+so POM's hard limit does not bite here.
+
+The design point that needed care: **163 of the 180 molecules are in GS+LF**, so a POM model
+trained on all of it has seen most test molecules with their percept labels. The primary
+embedding is therefore **E-held**, retrained per fold with the test fold's rule-3 groups
+excluded (5 trainings, about 45 minutes). E-all is reported alongside.
+
+The plan states in advance that failure is the more likely outcome, because the constraint is
+labels, not features. Five points are open for review at the end of the draft.
+
+**Before committing it:** settle those five, write `sw_qsor/receptors.py` with tests, then
+commit the plan, and only then run.
 
 ## Standing practice (unchanged)
 
