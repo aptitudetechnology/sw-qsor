@@ -3,6 +3,12 @@
 Written 17 Nov 2026. Milestone 1's literature half is done (`reports/01_dataset_survey.md`);
 what is left is local and needs no external research. Ordered by dependency, not importance.
 
+## 0. Package skeleton first (~20 min)
+
+Settled below: sw-qsor is built as an installable library from the start. So before any data,
+create `pyproject.toml` and an empty `sw_qsor/` package, and put the test directory in place.
+Everything after this goes inside the package, with demos as callers.
+
 ## 1. Fetch and cache the data (~20 min)
 
 `scripts/fetch_gslf.py` and `scripts/fetch_pyrfume.py`, following sw-enose's convention: data
@@ -68,10 +74,35 @@ same session that measures the floor — the gap between them is what keeps the 
   that there is a short list, but it is a research task, not a coding one.
 - Any model. Milestone 2 only begins when milestone 1 is written up.
 
-## Open question worth settling early
+## Packaging and code sharing, settled
 
-Does sw-qsor reuse sw-enose code, or stay independent? `sw_enose/chem.py` (descriptors,
-scaffolds) and the pattern in `demo_m2or_baseline.py` (floors, pre-registered splits) are
-directly applicable. Copying keeps the projects independent; a shared package couples their
-release cycles. Recommendation: copy, and note the origin in the docstring. These are small
-files and independence is worth more than reuse here.
+Three questions that look like one.
+
+**Is sw-qsor a library?** Yes, and build for that from the first commit, because it costs
+nothing now and is awkward to retrofit. The end state is `pip install sw-qsor` then
+`predict_odour(smiles)`. Practically, from step 1:
+
+- a real `sw_qsor/` package, installable, with a `pyproject.toml`;
+- no imports from the repository root, no paths relative to the current directory, no reading
+  of files the caller did not name;
+- demos are callers of the package, never the place where logic lives;
+- anything a demo needs twice belongs in the package.
+
+**Does sw-enose depend on sw-qsor?** No. Dependencies point from new to old. sw-enose has 166
+tests and a body of settled results; sw-qsor has no code and may yet find its data too thin.
+Coupling the proven project to the unproven one buys nothing and risks the stable thing.
+
+**Where does shared code live?** Not in a third library, not yet. The genuinely reusable asset
+is not the cheminformatics — descriptors and scaffolds are thin wrappers over RDKit — but the
+**evaluation discipline**: chemistry-free floors, group-aware splits, bars fixed before the
+run, paired margins over matched controls. That is not specific to olfaction and is not, as far
+as we know, available as a library. It is worth extracting eventually.
+
+But extract after writing it twice, not once. sw-enose has one implementation, spread across
+`demo_m2or_baseline.py` and the wind-tunnel demos; sw-qsor has none. Designing an API from a
+single example usually produces the wrong abstraction.
+
+**So: copy, but write the copy as though it were already that library.** Clean signatures, no
+assumption about which project is calling, no global state, no project-specific paths. Note the
+origin in each docstring. After milestone 1 there will be two real implementations and the
+right shape will be evident; extraction then is mechanical rather than speculative.
