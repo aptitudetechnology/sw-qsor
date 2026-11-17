@@ -74,6 +74,31 @@ Two prompts, run in that order:
 Findings from either are leads to verify, not facts, and are audited the way sw-enose audits
 such reports.
 
+## Result of the survey (17 Nov 2026)
+
+`reports/01_dataset_survey.md`. Run in-session with web search and direct file retrieval, not
+by a deep-research tool; every molecule count there was obtained by downloading the file and
+counting it.
+
+**The data exists.** The merged GoodScents + Leffingwell descriptor set (OpenPOM,
+`curated_GS_LF_merged_4983.csv`, MIT) holds **4,983 distinct molecules, 556 Bemis-Murcko
+scaffold groups, 138 descriptors of which 112 are carried by 50 or more molecules**. That
+clears every condition of the decision rule above. Pyrfume's 60 archives supply the rest,
+already resolved to CIDs and SMILES.
+
+Two findings change the plan rather than confirming it:
+
+1. **Rule 3 needs amending.** 2,236 of the 4,983 molecules (45%) are acyclic and collapse into
+   a single empty Murcko scaffold, so a scaffold-held-out split would put nearly half the data
+   in one group. Acyclics need a different grouping -- fingerprint clustering or carbon-skeleton
+   grouping. Murcko alone is not enough here.
+2. **Licences are per archive, not per repository.** `pyrfume-data` is MIT, but Arctander 1960
+   carries its own CC BY-**NonCommercial** licence. Check for a LICENSE file beside each
+   archive and treat its absence as "not stated".
+
+Still outstanding from milestone 1: the chemistry-free floor, and the overlap check between
+GS+LF, Arctander and Mayhew by InChIKey.
+
 ## Deliverables
 
 - `scripts/fetch_*.py` per dataset, with licence and retrieval date recorded.
