@@ -36,6 +36,14 @@ before). Every result it led to is recorded in `plan.md`, `plan-milestone-2.md` 
   It is partial: a safety classifier stopped the write, and the file now points to
   `plan-milestone-4.md` for the remaining correction. It is uncommitted in sw-enose.
 
+`note-3-from-sw-enose.md` — review of milestone 4 while it runs. Nothing is at risk in the run
+itself. Two things to act on when reading results: score the 10 ensemble members individually
+(free, already cached) to separate ensembling from architecture; and verify the single-atom
+mechanism by comparing embeddings rather than outputs, because C1 does not exercise the no-edge
+path. Also: all three single-atom molecules in GS+LF are labelled `odorless`, which makes the
+hydrogen sulfide result a correct generalisation rather than a representational gap, and a
+sharper claim.
+
 ## 1. Review `plan-milestone-4.md` (DRAFT)
 
 The question: does OpenPOM's published network beat neighbour lookup on unfamiliar molecules,
