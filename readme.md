@@ -63,8 +63,22 @@ before it was caught.
    chemistry-free baseline reached AUC 0.75, so a model scoring 0.80 would have looked like a
    success while having learned nothing about molecules. Every result is reported as the margin
    over its matched floor.
-3. **Hold out scaffolds, not just molecules.** A random split puts close analogues on both
-   sides, and the model wins by recognising a neighbour. Scaffold-held-out is the honest test.
+3. **Hold out groups of analogues, not just molecules.** A random split puts close analogues on
+   both sides, and the model wins by recognising a neighbour. Fixed on 17 Nov 2026, before any
+   result (`reports/02_grouping.md`):
+   - A group is a connected component of the graph linking molecules whose Morgan fingerprints
+     (radius 2, 2048 bits) have Tanimoto similarity ≥ 0.70, and records of the same molecule
+     (InChIKey connectivity block) to each other. No train–test pair is that similar.
+   - Whole groups go to 5 folds, largest first, each to the smallest fold so far
+     (`sw_qsor.splits`).
+   - Groups are computed over every molecule in the experiment together, deduplicated first,
+     including across datasets.
+   - Every result, the floor included, is also reported binned by each test molecule's
+     similarity to its nearest training molecule: < 0.4, 0.4–0.5, 0.5–0.6, 0.6–0.7.
+     The guarantee stops at 0.70, and in GS+LF most test molecules sit just below it.
+
+   Murcko scaffolds were the original plan and were rejected: 45% of GS+LF is acyclic and
+   collapses into a single empty scaffold.
 4. **Fix the bar before the run,** in writing, including what counts as failure.
 5. **Negative results are results.** They are recorded with the same care as positive ones, in
    the same files. Most of what sw-enose established is negative, and it is the more useful half.
@@ -73,8 +87,18 @@ before it was caught.
 
 ## Status
 
-Nothing implemented. First milestone in `plan.md`: survey the public structure–percept datasets
-and count what is actually in them.
+Milestone 1 in progress (`plan.md`): the dataset survey is written; the package skeleton and
+data fetchers exist; no model.
+
+```
+python -m venv .venv && .venv/bin/pip install -e '.[test]'
+.venv/bin/python scripts/fetch_gslf.py       # -> data/gslf/
+.venv/bin/python scripts/fetch_pyrfume.py    # -> data/<archive>/
+.venv/bin/pytest
+```
+
+Data is never vendored. Each fetched archive gets a `provenance.json` recording its pinned
+commit, checksums, retrieval date and observed licence.
 
 ## Licence
 

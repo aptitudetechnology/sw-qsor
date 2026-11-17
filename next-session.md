@@ -21,6 +21,48 @@ the loader's docstring.
 - **Check for a `LICENSE` file beside each archive before using it.** Arctander is CC
   BY-NonCommercial; most others state nothing, which is "not stated", not MIT.
 
+## Progress, 17 Nov 2026
+
+Steps 0 and 1 done: `sw_qsor/` package (`fetch`, `sources`, `datasets`), `scripts/fetch_gslf.py`,
+`scripts/fetch_pyrfume.py`, 10 offline tests. Sources pinned to openpom `5434c4b` and
+pyrfume-data `8054ea9`. Licences observed on fetch: Arctander CC BY-NC 4.0 (own LICENSE); the
+other four Pyrfume archives and GS+LF "not stated". Molecule counts recounted from the fetched
+files match the survey, with one exception that bears on step 3:
+
+- **Keller 2016's 481 is rows, not molecules.** 480 distinct CIDs (cinnamyl alcohol appears
+  twice), 2 rows with no SMILES (CIDs 8038, 1549778), and its SMILES are `CanonicalSMILES`
+  with no stereochemistry, so geraniol/nerol, geranyl/neryl acetate, D-/DL-camphor and
+  L-/DL-phenylalanine collapse: 474 distinct structures.
+- GS+LF ships non-stereo SMILES only. **The overlap in step 3 must therefore match on the
+  InChIKey connectivity block (first 14 characters), not the full key**, or stereo-labelled
+  archives (Arctander, Mayhew, ...) will appear falsely disjoint from it. Report both, and say
+  how many molecules each dataset loses to stereo collapse.
+
+Step 2 done: rule 3 amended to similarity-component groups at Tanimoto 0.70, with results
+binned by nearest-training-neighbour similarity. Candidates A–C were all rejected, and the
+plan's 10% size test turned out not to tell them apart; reasons in `reports/02_grouping.md`.
+`sw_qsor/splits.py` implements it; `demo_grouping.py` reproduces the comparison.
+**For step 4: the floor must be scored under these folds *and* these bins.**
+
+Step 3 done (`reports/03_overlap.md`, `sw_qsor/identity.py`, first section of
+`demo_dataset_survey.py`). **Only Arctander gives a sizeable descriptor test set independent of
+GS+LF under rule 3: 901 molecules, 838 groups.** Keller (98% inside GS+LF) and Dravnieks
+(92%) are re-measurements of GS+LF molecules, not test sets. Mayhew's 1,109 independent
+molecules answer a different question (odorous or not). Abraham is 95% inside Mayhew and is one
+of its label sources. Two open checks before Arctander can be used as a test set: a fixed
+vocabulary mapping to the GS+LF labels, and whether GoodScents labels derive from Arctander's text
+(test the agreement on the 1,477 shared molecules). Step 3 also found that GS+LF's duplicate records could be split
+across folds; fixed in `splits.py` (identity keys), and report 02 re-run.
+**For step 4: GS+LF has 4,981 molecules, not 4,983; merge the two duplicate pairs' labels
+before scoring the floor.**
+
+Step 4 done: floors in `sw_qsor/floors.py` + `sw_qsor/evaluate.py`, second half of
+`demo_dataset_survey.py`, results appended to `plan.md`, per-label table in
+`reports/04_floor_per_label.csv`. **Molecular weight alone: macro AUC 0.664, above chance on
+125 of 138 labels; base rate scores 0.775 on pooled micro AUC.** Milestone 1 clears the decision
+rule. Step 4 also found that pooling out-of-fold scores within distance bins biased the base
+rate to 0.43; fixed by within-fold ranks (`evaluate.within_fold_ranks`).
+
 ## 2. Amend rule 3 before any split is written (~45 min)
 
 The survey found 2,236 of 4,983 GS+LF molecules (45%) are acyclic and collapse into one empty

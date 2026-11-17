@@ -120,3 +120,67 @@ candidates likely to clear 1,000 molecules, and their labels are expected to be 
 imbalanced, with a long tail of descriptors used a handful of times. The most likely useful
 outcome is that a small number of common descriptors are learnable and the rest are not — and
 knowing which is which is worth having.
+
+## Results of milestone 1 (17 Nov 2026)
+
+Reproduce with `python demo_dataset_survey.py --floor-csv reports/04_floor_per_label.csv`.
+Detail in `reports/02_grouping.md` (splits) and `reports/03_overlap.md` (overlap).
+
+### The five counts, for GS+LF
+
+1. **Distinct molecules: 4,981**, not 4,983. Two molecules appear twice, once neutral and once
+   ionised; their labels are merged (union).
+2. **Groups: 3,434** under amended rule 3 (similarity components at Tanimoto ≥ 0.70), the
+   largest 235 molecules (4.7%). Murcko scaffolds were replaced, not supplemented: 45% of
+   molecules are acyclic.
+3. **Labels: 138**, carried by 31 to 1,901 molecules (median 91). 112 labels have ≥ 50 positives,
+   62 have ≥ 100, 8 have ≥ 500 (fruity, green, sweet, floral, herbal, woody, fatty, fresh).
+   Molecules carry 1–21 labels, median 4. The expected long tail is milder than feared: the
+   rarest label still has 31 molecules.
+4. **Overlap:** Keller (98%) and Dravnieks (92%) are inside GS+LF and cannot test it on new
+   molecules. Arctander supplies the only sizeable independent descriptor test set: 901
+   molecules in 838 groups, pending a vocabulary mapping and a label-provenance check.
+5. **The chemistry-free floor**, below.
+
+### The floor
+
+Scored on GS+LF, rule-3 folds, per label within each test fold, then mean and SD across the 5
+folds. Two floors, with hyperparameters fixed in `sw_qsor/floors.py` before the run:
+
+| Floor | Macro-mean AUC | Per-label AUC, 10th / 50th / 90th pct | Median fold SD | Pooled micro AUC |
+|---|---|---|---|---|
+| Base rate | 0.500 | 0.500 / 0.500 / 0.500 | 0 | **0.775** |
+| Molecular weight, 50-NN | **0.664** | 0.559 / 0.659 / 0.766 | 0.061 | **0.804** |
+
+- **Molecular weight alone beats chance on almost every label.** For 125 of 138 labels, the
+  mean across folds minus two standard errors is above 0.5. None is clearly below. The highest
+  MW floors are what size alone would predict: alcoholic 0.84, ethereal 0.83, terpenic 0.82,
+  solvent 0.79, pungent 0.79. Among the eight largest labels, woody (0.73) and floral (0.68)
+  are highest and sweet (0.55) lowest.
+- **Pooled micro AUC is not a structure measure.** A predictor that ignores the molecule
+  entirely scores 0.775 on it, because labels differ in frequency. Any micro-averaged figure,
+  ours or published, has to be read against that.
+- **The MW floor does not depend on distance to training** (macro AUC 0.69 / 0.67 / 0.68 / 0.67
+  across the four nearest-neighbour bins), as expected for a predictor that cannot see
+  neighbours. A structural model whose margin over this floor grows with similarity to the
+  training set is recognising neighbours.
+- **Noise depends on frequency.** Median per-label fold SD of AUC is 0.10 for labels with
+  < 50 positives and 0.02–0.03 for labels with ≥ 250. A margin is visible only against the
+  matching SD.
+- **The per-molecule label count is not a floor here.** It is not knowable without the labels,
+  so it was not computed. The plan listed it conditionally.
+
+Per-label floors: `reports/04_floor_per_label.csv`. That table is the bar for milestone 2.
+
+### Against the decision rule
+
+- ≥ 1,000 distinct molecules across ≥ 100 groups: **yes** (4,981; 3,434).
+- At least one label on ≥ 50 molecules: **yes** (112).
+- The floor leaves visible room relative to fold-to-fold spread: **yes, with a qualification.**
+  For the well-populated labels the MW floor is 0.55–0.75, with a fold SD of 0.01–0.04, so
+  there is room. But the floor is not 0.5, and a structural model has to be judged by its
+  margin over 0.66–0.75 on common labels, not over chance.
+
+**Milestone 1 clears.** GS+LF is worth modelling, under a split that still leaves most test
+molecules with a training neighbour at similarity 0.5–0.7, against a floor that a single
+number about each molecule already lifts well above chance.

@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sw-qsor"
+version = "0.0.1"
+description = "Quantitative structure-odour relationships, evaluated honestly."
+readme = "readme.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pandas",
+    "rdkit",
+    "scipy",
+    "scikit-learn",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["sw_qsor*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
