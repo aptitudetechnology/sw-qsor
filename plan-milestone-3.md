@@ -264,3 +264,97 @@ only 0.42–0.56 caps what any model trained on one source can score on another.
   animal, caramellic.
 
 Phase B can proceed. Phase C waits for Phase B's results to be committed.
+
+## Phase B results (17 Nov 2026)
+
+Run once with `python demo_milestone3_gslf.py`, plan unmodified. Fitting took about 40
+minutes on 24 threads: 112 labels × 3 forests × 5 folds. Per-label table:
+`reports/05_m3_per_label.csv`.
+
+### Checks
+
+1. **Pipeline:** shuffled-label macro-mean AUC **0.4852**, labels ranging 0.342–0.587.
+   Inside 0.48–0.52: **pass**. One caveat: the check is weaker than intended. Milestone 2's
+   scheme, a generator seeded 0 per run, was followed per label, so every label's shuffled
+   training set uses the *same* permutation of molecules. The 112 shuffled runs are therefore
+   correlated, not independent, which likely explains a mean 0.015 below 0.5.
+2. **Reproduction:** floral's per-fold AUCs equal milestone 2's to three decimals for all
+   four models: **pass**.
+
+### Q1, per label: 71 pass, 22 fail, 19 inconclusive. Reading: **BROAD**
+
+| GS+LF positives | Labels | Pass | Fail | Inconclusive | Median floor | Median RF-Morgan | Median margin |
+|---|---|---|---|---|---|---|---|
+| 50–99 | 50 | 31 | 11 | 8 | 0.665 | 0.812 | +0.118 |
+| 100–249 | 39 | 23 | 9 | 7 | 0.723 | 0.834 | +0.113 |
+| 250–499 | 15 | 12 | 1 | 2 | 0.745 | 0.828 | +0.110 |
+| 500+ | 8 | 5 | 1 | 2 | 0.682 | 0.797 | +0.089 |
+
+**`plan.md`'s prediction was wrong.** It expected a few common descriptors to be learnable and
+the rest not. Instead 71 of 112 labels pass, and rare labels pass about as often as common
+ones. Across labels the median margin over the floor is +0.111 (range −0.071 to +0.242).
+Macro-mean AUC: RF-Morgan 0.802, floor 0.701, kNN-Tanimoto 0.759.
+
+- **Failed (22):** fresh, ethereal, musty, pungent, creamy, dry, fermented, metallic, banana,
+  alcoholic, sharp, warm, rummy, ripe, natural, aromatic, grassy, solvent, orris, tea, fruit
+  skin, juicy.
+- **Inconclusive (19):** sweet, herbal, tropical, earthy, winey, berry, pear, savory, animal,
+  cognac, tobacco, musk, pine, hay, lily, medicinal, geranium, cortex, soapy.
+
+Descriptive observations, not tests: the plan did not ask for these.
+- **Failure is not explained by a high floor.** Failed and passing labels have the same median
+  floor (0.701 vs 0.700). Some failures are labels molecular weight already predicts
+  (alcoholic 0.864, ethereal 0.843, solvent, pungent). Many others are words for an overall
+  quality rather than a chemical character: fresh, dry, warm, natural, aromatic, sharp,
+  juicy, ripe.
+- **The largest margins are on labels named after chemical classes or specific materials:**
+  coumarinic +0.242, lactonic +0.241, chocolate, muguet, cinnamon, and odorless (+0.200). A
+  label like "lactonic" comes close to a structural definition, so part of the broad result
+  is structure recognising structure.
+- **For some labels RF-Morgan scores *below* RF-MW** (sharp −0.071, pungent −0.056): the
+  forest on fingerprint bits does not recover the size signal that molecular weight gives
+  directly.
+
+### Pooled over 91 labels with ≥ 10 positives below 0.5 similarity
+
+1,090 molecules and 3,970 positives; 2,000 joint group bootstraps, seed 0.
+
+| | Margin | 95% interval | Reading |
+|---|---|---|---|
+| **Q1:** RF-Morgan over floor | **+0.040** | [+0.013, +0.050] | **Structure signal persists far from training** |
+| **Q2:** RF-Morgan over kNN-Tanimoto | **+0.006** | [−0.008, +0.020] | **No evidence beyond similarity** |
+
+**Q2's interval is 0.028 wide**, so any pooled advantage over neighbour lookup on distant
+molecules larger than about +0.02 AUC is excluded.
+
+**The Q1 interval is lopsided** (estimate near its upper end). The likely reason: in each
+resample the floor is the higher of two noisy AUCs, and that maximum is biased upward, which
+shifts resampled margins down. This makes the interval conservative, the direction the plan
+intended. Q2 has a single comparator, and its interval is centred.
+
+Secondary, deciding nothing, by bin:
+
+| Similarity bin | Molecules | Over floor | Over kNN-Tanimoto |
+|---|---|---|---|
+| 0.0–0.4 | 455 | **+0.000** [−0.043, +0.019] | +0.009 [−0.019, +0.035] |
+| 0.4–0.5 | 635 | +0.046 [+0.014, +0.058] | +0.004 [−0.012, +0.019] |
+| 0.5–0.6 | 1,536 | +0.098 [+0.079, +0.105] | +0.030 [+0.021, +0.038] |
+| 0.6–0.7 | 2,355 | +0.097 [+0.081, +0.104] | +0.037 [+0.028, +0.046] |
+
+Overall (all molecules), 101 labels score above kNN-Tanimoto and 11 below; 56 are above in
+all 5 folds and none is below in all 5.
+
+### What it means
+
+- **Structure predicts most odour descriptors better than size does,** and broadly: 71 of
+  112 labels pass the same bar floral passed. The prediction of a narrow result was wrong.
+- **The forest beats neighbour lookup only where neighbours exist.** At 0.5–0.7 similarity it
+  is ahead by 0.03–0.04 AUC, consistently. Below 0.5 the pooled advantage is +0.006 and any
+  advantage above about 0.02 is ruled out. Milestone 2's single-label finding holds across
+  labels.
+- **On the most unfamiliar molecules (similarity < 0.4), even the margin over molecular weight
+  disappears** (+0.000). The pooled "persists" verdict rests on the 0.4–0.5 bin. This is a
+  secondary result and decides nothing, but it is the plainest statement in this run of where
+  the limit lies.
+- Phase C now tests whether this transfers to Arctander's 805 labelled independent molecules.
+  Those are new to GS+LF, but mostly not this unfamiliar.

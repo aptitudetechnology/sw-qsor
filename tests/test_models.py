@@ -49,3 +49,26 @@ def test_fold_aucs_and_bootstrap():
     assert r["lo"] > 0.1 and r["lo"] < r["margin"] < r["hi"]
     r0 = group_bootstrap_margin(y, R[:, 1], [R[:, 1]], groups, mask, n_boot=200)
     assert r0["margin"] == 0 and r0["lo"] == 0 == r0["hi"]
+
+
+def test_shared_neighbours_equal_tanimoto_knn():
+    from sw_qsor.models import tanimoto_neighbours
+    fps = morgan_fingerprints(SMI)
+    Y = np.array([[1, 0], [1, 1], [1, 0], [0, 0], [0, 1], [0, 0], [1, 1], [0, 0]])
+    idx = tanimoto_neighbours(fps[:6], fps[6:], k=3)
+    for j in range(2):
+        np.testing.assert_array_equal(Y[:6][idx, j].mean(1), tanimoto_knn(fps[:6], Y[:6, j], fps[6:], k=3))
+
+
+def test_auc_columns_matches_sklearn_with_ties():
+    from sklearn.metrics import roc_auc_score
+
+    from sw_qsor.evaluate import auc_columns
+    rng = np.random.default_rng(4)
+    Y = rng.integers(0, 2, (300, 6))
+    Y[:, 5] = 0
+    S = np.round(rng.normal(0, 1, (300, 6)) + Y, 1)  # rounding creates ties
+    got = auc_columns(Y, S)
+    for j in range(5):
+        assert abs(got[j] - roc_auc_score(Y[:, j], S[:, j])) < 1e-12
+    assert np.isnan(got[5])

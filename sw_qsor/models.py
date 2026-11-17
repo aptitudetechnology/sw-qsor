@@ -47,3 +47,13 @@ def tanimoto_knn(train_fps: Sequence, train_y: np.ndarray, test_fps: Sequence,
         s = np.asarray(DataStructs.BulkTanimotoSimilarity(fp, list(train_fps)))
         out[i] = train_y[np.argsort(-s, kind="stable")[:k]].mean()
     return out
+
+
+def tanimoto_neighbours(train_fps: Sequence, test_fps: Sequence, k: int = TANIMOTO_K) -> np.ndarray:
+    """Indices of the ``k`` most Tanimoto-similar training molecules per test molecule, ties by
+    training order: the neighbours :func:`tanimoto_knn` averages over, computed once so that
+    many labels can share them. ``train_y[idx].mean(1)`` equals ``tanimoto_knn``."""
+    k = min(k, len(train_fps))
+    train_fps = list(train_fps)
+    return np.array([np.argsort(-np.asarray(DataStructs.BulkTanimotoSimilarity(fp, train_fps)),
+                                kind="stable")[:k] for fp in test_fps])

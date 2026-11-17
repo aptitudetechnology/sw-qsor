@@ -84,6 +84,13 @@ fixed rule Phase C is an external test, though Leffingwell may draw on Arctander
 labels: 25, on 805 labelled independent molecules. **Next: Phase B (all 112 labels on GS+LF,
 about 70–90 minutes, one run).**
 
+**Phase B done** (checks passed; floral reproduced exactly): **71/112 labels pass → BROAD**
+(plan.md predicted narrow). Pooled below 0.5 similarity: margin over floor +0.040 [+0.013,
++0.050] (persists), over kNN-Tanimoto +0.006 [−0.008, +0.020] (**no evidence beyond
+similarity**). Below 0.4 even the margin over MW is +0.000. Shuffled-label check passed at
+0.485 but is weaker than intended: the same permutation was used for every label. **Next: Phase C
+(Arctander, 25 labels).**
+
 ## 2. Amend rule 3 before any split is written (~45 min)
 
 The survey found 2,236 of 4,983 GS+LF molecules (45%) are acyclic and collapse into one empty

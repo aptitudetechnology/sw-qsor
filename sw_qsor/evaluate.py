@@ -171,3 +171,18 @@ def joint_group_bootstrap(stat: Callable[[np.ndarray], float], groups: np.ndarra
     lo, hi = np.percentile(ok, [2.5, 97.5])
     return {"estimate": point, "lo": float(lo), "hi": float(hi), "n_boot": int(len(ok)),
             "nan_draws": int(np.isnan(draws).sum()), "groups": int(len(uniq))}
+
+
+def auc_columns(Y: np.ndarray, S: np.ndarray) -> np.ndarray:
+    """ROC AUC of each column of ``S`` against the matching column of ``Y``, all at once
+    (Mann-Whitney U from average ranks; equals ``roc_auc_score`` including ties). NaN for
+    columns without both classes."""
+    from scipy.stats import rankdata
+
+    Y = np.asarray(Y).astype(bool)
+    R = rankdata(np.asarray(S, float), axis=0)
+    n1 = Y.sum(0)
+    n0 = len(Y) - n1
+    with np.errstate(invalid="ignore", divide="ignore"):
+        auc = ((R * Y).sum(0) - n1 * (n1 + 1) / 2) / (n1 * n0)
+    return np.where((n1 > 0) & (n0 > 0), auc, np.nan)
