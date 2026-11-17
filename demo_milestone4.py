@@ -203,6 +203,10 @@ def d1b(ex):
           f"have a cross-fold neighbour at similarity >= 0.5.")
     print(f"     Single heavy atom (identical POM readout): {int((heavy == 1).sum())}: "
           f"{', '.join(ex.smiles[heavy == 1])}")
+    bondless = np.array([Chem.MolFromSmiles(x).GetNumBonds() == 0 for x in ex.smiles])
+    print(f"     Bondless entries (all share one POM representation): {int(bondless.sum())}")
+    for i in np.nonzero(bondless)[0]:
+        print(f"       {ex.smiles[i]:34s} {';'.join(np.array(ex.labels)[ex.Y[i] == 1])}")
     print(f"     Tiny molecules: {', '.join(ex.smiles[tiny][:40])}"
           f"{' ...' if tiny.sum() > 40 else ''}")
 
@@ -331,6 +335,23 @@ def main(data_dir, sw_enose_dir, reports):
     for c, r in q1.items():
         print(f"Q1: POM over {c:9s}: {fmt(r)}, width {r['hi'] - r['lo']:.4f}")
     print(f"Q1 verdict (both above 0 / both below 0 / otherwise): {q1r}")
+    # Amendment 2 (reporting only): single models alongside the ensemble
+    single = {c: [] for c in ["Lookup-10", "Lookup-W"]}
+    single_auc = []
+    for sd in range(N_MODELS):
+        Ps = np.zeros(Y.shape)
+        for f in range(5):
+            Ps[folds == f] = np.load(cache / f"pom_fold{f}_seed{sd}.npy")
+        Rs = within_fold_ranks(Ps, folds)
+        a_s = auc_columns(Y[far][:, ok], Rs[far][:, ok])
+        for c in single:
+            single[c].append(float(np.nanmean(a_s - auc_columns(Y[far][:, ok], R[c][far][:, ok]))))
+        single_auc.append(macro_fold_auc(Y, Ps, folds)[0])
+    for c, v in single.items():
+        print(f"   single models (decide nothing), distant margin over {c:9s}: mean {np.mean(v):+.4f}, "
+              f"range {min(v):+.4f} to {max(v):+.4f} (ensemble {q1[c]['estimate']:+.4f})")
+    print(f"   single models' macro AUC, 138 labels: mean {np.mean(single_auc):.4f}, range "
+          f"{min(single_auc):.4f}-{max(single_auc):.4f}")
     s1 = {c: pooled_margin(Y, R, groups, far, ok, "POM", [c], n_boot=N_BOOT)
           for c in ["F-MW", "RF-MW"]}
     for c, r in s1.items():

@@ -75,6 +75,7 @@ setting is OpenPOM's own; none is tuned here.
 ### References and floor (from milestone 3, unchanged)
 
 - **Floor:** the higher of F-MW and RF-MW, per label and per fold or resample.
+  *(Superseded for S1 by the Amendment below: each floor is tested separately.)*
 - **Lookup-10:** kNN-Tanimoto, k = 10, as in milestone 3.
 - **Lookup-W (new, fixed here):** similarity-weighted lookup over the 50 most similar training
   molecules, score = Σ simᵢ·yᵢ / Σ simᵢ. It is added because k = 10 ties heavily on rare labels:
@@ -82,6 +83,7 @@ setting is OpenPOM's own; none is tuned here.
   any model compared against it. k = 50 is chosen here, not tuned.
 - **The lookup bar is the higher of Lookup-10 and Lookup-W in each resample**, the same
   convention as the floor.
+  *(Superseded by the Amendment below: Q1 tests each lookup separately; S2 uses Lookup-W.)*
 - **RF-Morgan** (milestone 3) is reported alongside for comparison, but decides nothing.
 
 ## Data and split
@@ -278,6 +280,28 @@ comparison had a single comparator and was unbiased.
 
 Nothing else changes. The smoke run's numbers are meaningless as results and are recorded only
 as the reason for this amendment. Its output went to `data/m4_smoke/`, never `reports/`.
+
+## Amendment 2, 17 Nov 2026, before the run (no real result seen): reporting only
+
+Prompted by `note-3-from-sw-enose.md`. These additions decide nothing, and no bar changes.
+- **Single models alongside the ensemble.** Q1 compares a 10-model averaged ensemble, and
+  averaging alone raises AUC. Every member's predictions are cached, so for each of the 10
+  seeds, the single-model pooled distant margin over Lookup-10 and over Lookup-W (point
+  estimates) and its macro AUC are reported. Mean, minimum and maximum are given next to the
+  ensemble. This separates the architecture from ensembling.
+- **D1b is extended from single heavy atoms to all bondless entries.** Checked before the run
+  with OpenPOM's released weights:
+  - Bit-identical embeddings for `S` and `O`, `[Cl-]` and `[Na+]`, the salt `[Cl-].[Na+]` and
+    `O`, and `S` and `[He]`.
+  - Different embeddings for `CS` and `CO`.
+  - Atom features do reach the node states (`S` and `O` differ after message passing). But the
+    readout sums only messages arriving from neighbours, and DGL zero-fills nodes that receive
+    none.
+
+  So the collapse covers every molecule in which no heavy atom has a bond, salts of
+  single-atom ions included. That is a property of OpenPOM's architecture, not of the port.
+  GS+LF has 11 such entries: 10 labelled `odorless` and one, ammonium sulfide, labelled
+  `sulfurous`. D1b lists them with their labels.
 
 ## Decided at review (17 Nov 2026): all five as drafted
 
