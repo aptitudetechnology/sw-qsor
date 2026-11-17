@@ -85,3 +85,20 @@ def test_weighted_lookup_matches_brute_force_and_breaks_ties():
         assert abs(got[i] - (s[nn_] @ y[:6][nn_]) / s[nn_].sum()) < 1e-12
     multi = tanimoto_weighted_lookup(fps[:6], np.c_[y[:6], 1 - y[:6]], fps[6:], k=4)
     np.testing.assert_allclose(multi[:, 0], got)
+
+
+def test_pooled_margin_matches_group_bootstrap_margin_for_one_label():
+    from sw_qsor.evaluate import pooled_margin
+    rng = np.random.default_rng(5)
+    n = 600
+    y = rng.integers(0, 2, n)
+    folds = rng.integers(0, 5, n)
+    groups = rng.integers(0, 200, n)
+    S = np.column_stack([y + rng.normal(0, 1, n), rng.normal(0, 1, n)])
+    R = within_fold_ranks(S, folds)
+    mask = np.ones(n, bool)
+    a = pooled_margin(y[:, None], {"m": R[:, [0]], "c": R[:, [1]]}, groups, mask,
+                      np.array([0]), "m", ["c"], n_boot=300)
+    b = group_bootstrap_margin(y, R[:, 0], [R[:, 1]], groups, mask, n_boot=300)
+    assert abs(a["estimate"] - b["margin"]) < 1e-12
+    assert abs(a["lo"] - b["lo"]) < 1e-9 and abs(a["hi"] - b["hi"]) < 1e-9

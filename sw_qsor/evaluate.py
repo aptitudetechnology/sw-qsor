@@ -186,3 +186,21 @@ def auc_columns(Y: np.ndarray, S: np.ndarray) -> np.ndarray:
     with np.errstate(invalid="ignore", divide="ignore"):
         auc = ((R * Y).sum(0) - n1 * (n1 + 1) / 2) / (n1 * n0)
     return np.where((n1 > 0) & (n0 > 0), auc, np.nan)
+
+
+def pooled_margin(Y: np.ndarray, R: dict, groups: np.ndarray, mask: np.ndarray,
+                  label_idx: np.ndarray, model: str, comparators: Sequence[str], *,
+                  n_boot: int = 2000, seed: int = 0) -> dict:
+    """Macro-mean (over ``label_idx``) AUC margin of ``R[model]`` over the best of
+    ``R[comparators]`` (max taken per label in each resample) on molecules in ``mask``, with a
+    joint group bootstrap. ``R`` holds within-fold-ranked score matrices (molecules x labels)."""
+    Ym, gm = Y[mask][:, label_idx], groups[mask]
+    Rm = {k: v[mask][:, label_idx] for k, v in R.items()}
+
+    def stat(idx):
+        yy = Ym[idx]
+        m = auc_columns(yy, Rm[model][idx])
+        c = np.max([auc_columns(yy, Rm[k][idx]) for k in comparators], axis=0)
+        return float(np.nanmean(m - c))
+
+    return joint_group_bootstrap(stat, gm, n_boot=n_boot, seed=seed)

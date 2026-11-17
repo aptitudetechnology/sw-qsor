@@ -247,6 +247,38 @@ without re-running:
 - Per-label results in `reports/06_m4_per_label.csv`, D1 in `reports/06_sw_enose_coverage.csv`,
   and a results section appended here whatever the outcome.
 
+## Amendment, 17 Nov 2026, before the run (no real result seen)
+
+**Why.** `demo_milestone4.py --smoke` runs the whole pipeline with every label row-permuted,
+so there is no signal, and every margin should then sit at zero. The committed bars did not:
+
+| Pooled margin below 0.5, permuted labels | Estimate [95% interval] |
+|---|---|
+| Q1: POM over the per-resample **max** of Lookup-10 and Lookup-W | −0.035 [−0.058, −0.025] |
+| S1: POM over the per-resample **max** of F-MW and RF-MW | −0.044 [−0.075, −0.041] |
+
+The higher of two noisy AUCs is biased upward, so a margin over it is biased downward. That
+is about 0.03–0.04 here, against effects of the size milestone 3 measured (Q2: +0.006). Under
+the committed rule, Q1 would have read "worse than lookup" on data with no signal at all.
+Milestone 3's floor comparisons used the same max, so they were conservative. Its Q2 lookup
+comparison had a single comparator and was unbiased.
+
+**Changes**, each a single comparator, so each margin is unbiased when there is no signal:
+- **Q1:** pooled margins of the POM ensemble over Lookup-10 and over Lookup-W, each with its
+  own 2,000 joint group bootstraps (seed 0, same groups):
+  - *Beyond similarity:* both intervals entirely above 0.
+  - *Worse than lookup:* both entirely below 0.
+  - *No evidence beyond similarity:* otherwise.
+- **S1:** margins over F-MW and over RF-MW separately. *Persists* only if both intervals are
+  entirely above 0.
+- **S2:** the per-label distant-bin margin is over **Lookup-W** alone, the tie-free lookup S2
+  exists to use. The margin over Lookup-10 is reported alongside and decides nothing.
+- **The reference row** (RF-Morgan over lookup) and **the per-label table** report margins over
+  each comparator separately.
+
+Nothing else changes. The smoke run's numbers are meaningless as results and are recorded only
+as the reason for this amendment. Its output went to `data/m4_smoke/`, never `reports/`.
+
 ## Decided at review (17 Nov 2026): all five as drafted
 
 1. **Q2 is co-primary.** It is descriptive and decides nothing.
