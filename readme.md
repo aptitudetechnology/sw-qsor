@@ -91,7 +91,9 @@ Milestone 1 complete (`plan.md`). Milestone 2 (`plan-milestone-2.md`) ran once, 
 (`floral`): a random forest on Morgan fingerprints beat the better of two molecular-weight
 floors by 0.097 AUC, positive in every fold and on molecules far from training. On those far
 molecules it did no better than averaging the labels of the ten most similar training
-molecules.
+molecules. Milestone 3 (`plan-milestone-3.md`) repeated the protocol on all 112 well-populated
+labels: 71 pass, and the margin transfers to Arctander. But on molecules unlike the training
+set, neither dataset shows learning beyond similarity.
 
 ```
 python -m venv .venv && .venv/bin/pip install -e '.[test]'

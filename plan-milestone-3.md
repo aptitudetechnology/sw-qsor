@@ -358,3 +358,86 @@ all 5 folds and none is below in all 5.
   the limit lies.
 - Phase C now tests whether this transfers to Arctander's 805 labelled independent molecules.
   Those are new to GS+LF, but mostly not this unfamiliar.
+
+## Phase C results (17 Nov 2026)
+
+Run once with `python demo_milestone3_arctander.py`, plan unmodified, in 93 seconds. Models
+were fitted on all 4,981 GS+LF molecules and tested on **805 labelled Arctander molecules
+independent of GS+LF** (745 rule-3 groups), over the 25 labels fixed in A3. Per-label table:
+`reports/05_phase_c_per_label.csv`. Framing per Phase A: **an external test, with the caveat
+that Leffingwell, half of GS+LF, tracks Arctander more closely than GoodScents does.**
+
+The plan specified no shuffled-label check for Phase C, and none was run.
+
+### How unfamiliar the test molecules are
+
+Similarity of each test molecule to its nearest GS+LF molecule: median 0.56.
+
+| Bin | 0.0–0.4 | 0.4–0.5 | 0.5–0.6 | 0.6–0.7 |
+|---|---|---|---|---|
+| Arctander test molecules | 93 (12%) | 139 (17%) | 273 (34%) | 300 (37%) |
+| GS+LF test folds, Phase B | 9% | 13% | 31% | 47% |
+
+Slightly more distant than GS+LF's own folds, but most are still within 0.5–0.7 of a training
+molecule, as the plan's caveat expected.
+
+### Results
+
+| Model | Macro-mean AUC over 25 labels |
+|---|---|
+| F-MW | 0.610 |
+| RF-MW | 0.621 |
+| kNN-Tanimoto | 0.707 |
+| **RF-Morgan** | **0.745** |
+
+RF-Morgan is above the floor on 24 of 25 labels (the exception is leafy, −0.022) and above
+kNN-Tanimoto on 17.
+
+| Pooled (2,000 group bootstraps, seed 0) | Margin | 95% interval | Reading |
+|---|---|---|---|
+| RF-Morgan over floor | **+0.110** | [+0.084, +0.126] | **Transfers** |
+| RF-Morgan over kNN-Tanimoto | **+0.038** | [+0.024, +0.052] | **Beyond similarity on a new source** |
+
+Secondary, deciding nothing; point estimates only, over labels with ≥ 5 positives in the bin:
+
+| Bin | Molecules | Labels | RF-Morgan | Over floor | Over kNN-Tanimoto |
+|---|---|---|---|---|---|
+| 0.0–0.4 | 93 | 13 | 0.674 | +0.064 | **+0.001** |
+| 0.4–0.5 | 139 | 16 | 0.666 | +0.059 | +0.033 |
+| 0.5–0.6 | 273 | 24 | 0.748 | +0.082 | +0.044 |
+| 0.6–0.7 | 300 | 25 | 0.754 | +0.123 | +0.038 |
+
+### What it means
+
+- **The structure signal transfers to a different source.** Trained on GS+LF, the forest beats
+  the size floor on Arctander by 0.11 AUC pooled, on 24 of 25 labels. The floors are lower on
+  Arctander (about 0.61 against 0.70), so the margin is larger than in Phase B, though absolute
+  AUCs are lower (0.745 against 0.80). Sources agreeing only at κ 0.42–0.56 (Phase A) would
+  produce exactly that.
+- **"Beyond similarity" here is not a contradiction of Phase B's Q2, and should not be read
+  as one.** Phase C's criterion pools *all* test molecules. Most sit at 0.5–0.7 similarity,
+  where Phase B also found the forest ahead of lookup by 0.03–0.04. Phase C shows that
+  advantage carries over to another source's labels. On the 93 most distant molecules (< 0.4)
+  the advantage over lookup is again +0.001, though there are too few molecules for that
+  figure to decide anything.
+- **The caveat stands.** If Leffingwell drew on Arctander, part of this transfer is a shared
+  description tradition rather than independent perception.
+
+## Milestone 3, summary
+
+1. **Breadth (Q1):** structure beats molecular weight on 71 of 112 GS+LF labels under rule 3,
+   with rare labels doing about as well as common ones. `plan.md`'s narrow prediction was
+   wrong.
+2. **Beyond similarity (Q2):** on GS+LF molecules below 0.5 similarity, pooled over 91 labels,
+   the forest is no better than averaging the labels of the 10 most similar training molecules
+   (+0.006 [−0.008, +0.020]). Its advantage over lookup, 0.03–0.04, exists where close
+   neighbours exist.
+3. **External (Q3):** both findings carry over to Arctander. The forest beats the floor by 0.11
+   and lookup by 0.04, the latter again coming from molecules with neighbours at 0.5–0.7.
+4. **Where the limit is:** below 0.4 similarity the forest neither beats lookup (both datasets)
+   nor, on GS+LF, even molecular weight. A single forest on 2048 Morgan bits has not been shown
+   to learn anything about molecules unlike its training set.
+
+What would move this is a different representation or model tested on the distant bins under
+the same protocol. That is a new question for a new plan, per milestone 2's rule against re-running
+with changed settings.

@@ -90,3 +90,23 @@ def independence(smiles_by_dataset: dict, anchor: str) -> dict:
         classes[n] = {"inside": inside, "near": near, "independent": sets[n] - inside - near}
     return {"keys": sets, "group_of": group_of, "smiles_of": smiles_of, "classes": classes,
             "anchor_groups": anchor_groups}
+
+
+def arctander_by_key(archive_dir: str | Path, gslf_labels, targets):
+    """Labelled Arctander molecules by connectivity key, with columns ``targets`` (GS+LF
+    labels) through the fixed vocabulary mapping. Many-to-one targets (vanilla <- vanilla +
+    vanillin) are unioned; stimuli/records sharing a key are unioned; unlabelled molecules
+    are excluded as missing (plan-milestone-3.md, Phase A results)."""
+    import pandas as pd
+
+    from sw_qsor.datasets import load_arctander_labels
+    from sw_qsor.vocab import arctander_mapping
+
+    arc, arc_labels, _ = load_arctander_labels(archive_dir)
+    mapping = arctander_mapping(arc_labels, gslf_labels)
+    arc = arc[arc.labelled]
+    cols = [arc[[a for a, g in mapping.items() if g == t]].max(axis=1).to_numpy()
+            for t in targets]
+    keys = key_table(arc.smiles).key.tolist()
+    keep, merged = collapse_duplicates(keys, np.column_stack(cols))
+    return pd.DataFrame(merged, index=[keys[i] for i in keep], columns=list(targets))

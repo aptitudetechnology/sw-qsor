@@ -91,6 +91,12 @@ similarity**). Below 0.4 even the margin over MW is +0.000. Shuffled-label check
 0.485 but is weaker than intended: the same permutation was used for every label. **Next: Phase C
 (Arctander, 25 labels).**
 
+**Phase C done; milestone 3 complete.** On Arctander (805 independent molecules, 25 labels)
+the forest beats the floor by +0.110 [+0.084, +0.126] (transfers) and kNN-Tanimoto by
++0.038 [+0.024, +0.052]. That second figure pools all molecules, mostly at 0.5–0.7 similarity;
+below 0.4 it is again +0.001. Summary at the end of `plan-milestone-3.md`. **Open question for a
+milestone 4 plan: can any representation beat neighbour lookup below 0.5 similarity?**
+
 ## 2. Amend rule 3 before any split is written (~45 min)
 
 The survey found 2,236 of 4,983 GS+LF molecules (45%) are acyclic and collapse into one empty

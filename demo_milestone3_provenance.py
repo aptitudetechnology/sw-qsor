@@ -25,7 +25,7 @@ from sw_qsor.datasets import (
     load_pyrfume_molecules,
 )
 from sw_qsor.evaluate import joint_group_bootstrap
-from sw_qsor.experiment import independence
+from sw_qsor.experiment import arctander_by_key, independence
 from sw_qsor.identity import collapse_duplicates, key_table
 from sw_qsor.splits import morgan_fingerprints, similarity_components
 from sw_qsor.vocab import arctander_mapping
@@ -70,6 +70,7 @@ def main(data_dir, reports):
                               for t in targets])
     A = by_key(arc_lab.smiles, merged)
     A.columns = targets
+    assert A.equals(arctander_by_key(data_dir / "arctander_1960", gslf_labels, targets))
     many = mapped.gslf[mapped.gslf.duplicated(keep=False)]
     print(f"Distinct GS+LF targets among the 112: {len(targets)}; many-to-one: "
           f"{', '.join(f'{t} <- ' + ' + '.join(mapped.arctander[mapped.gslf == t]) for t in many.unique())}")
