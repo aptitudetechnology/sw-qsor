@@ -70,6 +70,13 @@ group-bootstrap interval above 0 in the < 0.5 similarity bin). **Milestone 1 is 
 next session runs milestone 2 exactly as written, with no changes to that file before the
 run.**
 
+Milestone 2 run (same day, at the user's request; the plan was already committed and
+pushed): **SUCCESS against the bar, read as "structure helps, but only as far as neighbour
+lookup does"**. RF-Morgan 0.826 vs floor 0.730 (RF on MW), margin +0.097 in 5/5 folds, +0.083
+[+0.032, +0.132] below 0.5 similarity. Tanimoto 10-NN reaches 0.806, and below 0.5 the forest
+does not beat it. Results in `plan-milestone-2.md`. **Next: write `plan-milestone-3.md` (112 labels,
+Arctander mapping and provenance check) before running anything.**
+
 ## 2. Amend rule 3 before any split is written (~45 min)
 
 The survey found 2,236 of 4,983 GS+LF molecules (45%) are acyclic and collapse into one empty

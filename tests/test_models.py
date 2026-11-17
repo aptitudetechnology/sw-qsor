@@ -1,0 +1,51 @@
+import numpy as np
+from rdkit import DataStructs
+
+from sw_qsor.evaluate import fold_aucs, group_bootstrap_margin, within_fold_ranks
+from sw_qsor.models import fingerprint_matrix, random_forest, tanimoto_knn
+from sw_qsor.splits import morgan_fingerprints
+
+SMI = ["CCO", "CCCO", "CCCCO", "c1ccccc1", "Cc1ccccc1", "CCc1ccccc1", "CC(=O)O", "CCC(=O)O"]
+
+
+def test_fingerprint_matrix_matches_bits():
+    fps = morgan_fingerprints(SMI)
+    X = fingerprint_matrix(fps)
+    assert X.shape == (len(SMI), 2048)
+    for i, fp in enumerate(fps):
+        assert set(np.nonzero(X[i])[0]) == set(fp.GetOnBits())
+
+
+def test_tanimoto_knn_matches_brute_force():
+    fps = morgan_fingerprints(SMI)
+    y = np.array([1, 1, 1, 0, 0, 0, 1, 0])
+    got = tanimoto_knn(fps[:6], y[:6], fps[6:], k=3)
+    for i, fp in enumerate(fps[6:]):
+        s = np.array(DataStructs.BulkTanimotoSimilarity(fp, fps[:6]))
+        assert got[i] == y[:6][np.argsort(-s, kind="stable")[:3]].mean()
+
+
+def test_random_forest_learns_a_separable_feature_and_accepts_1d():
+    rng = np.random.default_rng(0)
+    x = rng.uniform(0, 1, 400)
+    y = (x > 0.5).astype(int)
+    p = random_forest(x[:300], y[:300], x[300:])
+    assert ((p > 0.5) == y[300:]).mean() > 0.95
+
+
+def test_fold_aucs_and_bootstrap():
+    rng = np.random.default_rng(1)
+    n = 1000
+    folds = rng.integers(0, 5, n)
+    groups = rng.integers(0, 300, n)
+    y = rng.integers(0, 2, n)
+    good = y + rng.normal(0, 0.7, n)
+    noise = rng.normal(0, 1, n)
+    a = fold_aucs(y, good, folds)
+    assert a.shape == (5,) and (a > 0.7).all()
+    mask = np.ones(n, bool)
+    R = within_fold_ranks(np.column_stack([good, noise]), folds)
+    r = group_bootstrap_margin(y, R[:, 0], [R[:, 1]], groups, mask, n_boot=200)
+    assert r["lo"] > 0.1 and r["lo"] < r["margin"] < r["hi"]
+    r0 = group_bootstrap_margin(y, R[:, 1], [R[:, 1]], groups, mask, n_boot=200)
+    assert r0["margin"] == 0 and r0["lo"] == 0 == r0["hi"]

@@ -11,7 +11,7 @@ Written for sw-qsor as a project-independent utility.
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 
 import numpy as np
 import pandas as pd
@@ -106,3 +106,47 @@ def by_bin(Y: np.ndarray, S: np.ndarray, bins: np.ndarray, labels: list[str],
                      "auc_macro": float(np.mean(aucs)) if aucs else np.nan,
                      "auc_median": float(np.median(aucs)) if aucs else np.nan})
     return pd.DataFrame(rows).set_index("bin")
+
+
+def fold_aucs(y: np.ndarray, s: np.ndarray, folds: np.ndarray) -> np.ndarray:
+    """ROC AUC of one label within each fold, in fold order (NaN if a fold is unscoreable)."""
+    out = []
+    for f in np.unique(folds):
+        m = folds == f
+        ok = 0 < y[m].sum() < m.sum()
+        out.append(roc_auc_score(y[m], s[m]) if ok else np.nan)
+    return np.array(out)
+
+
+def group_bootstrap_margin(y: np.ndarray, model: np.ndarray, floors: Sequence[np.ndarray],
+                           groups: np.ndarray, mask: np.ndarray, *, n_boot: int = 2000,
+                           seed: int = 0) -> dict:
+    """AUC margin of ``model`` over the best of ``floors`` on the molecules in ``mask``, with a
+    95% percentile interval from resampling **groups** (not molecules) with replacement.
+
+    Scores should already be comparable across folds (:func:`within_fold_ranks`). In each
+    resample the floor is the higher of the floors' AUCs in that resample. Resamples that
+    lack a positive or a negative are skipped and counted.
+    """
+    y, model, groups = np.asarray(y)[mask], np.asarray(model)[mask], np.asarray(groups)[mask]
+    floors = [np.asarray(f)[mask] for f in floors]
+
+    def margin(idx):
+        yy = y[idx]
+        return roc_auc_score(yy, model[idx]) - max(roc_auc_score(yy, f[idx]) for f in floors)
+
+    point = margin(np.arange(len(y)))
+    uniq, inverse = np.unique(groups, return_inverse=True)
+    members = [np.nonzero(inverse == g)[0] for g in range(len(uniq))]
+    rng = np.random.default_rng(seed)
+    draws, skipped = [], 0
+    for _ in range(n_boot):
+        idx = np.concatenate([members[g] for g in rng.integers(0, len(uniq), len(uniq))])
+        if 0 < y[idx].sum() < len(idx):
+            draws.append(margin(idx))
+        else:
+            skipped += 1
+    lo, hi = np.percentile(draws, [2.5, 97.5])
+    return {"margin": float(point), "lo": float(lo), "hi": float(hi), "n_boot": len(draws),
+            "skipped": skipped, "molecules": int(len(y)), "positives": int(y.sum()),
+            "groups": int(len(uniq))}

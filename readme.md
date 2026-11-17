@@ -87,8 +87,11 @@ before it was caught.
 
 ## Status
 
-Milestone 1 in progress (`plan.md`): the dataset survey is written; the package skeleton and
-data fetchers exist; no model.
+Milestone 1 complete (`plan.md`). Milestone 2 (`plan-milestone-2.md`) ran once, on one label
+(`floral`): a random forest on Morgan fingerprints beat the better of two molecular-weight
+floors by 0.097 AUC, positive in every fold and on molecules far from training. On those far
+molecules it did no better than averaging the labels of the ten most similar training
+molecules.
 
 ```
 python -m venv .venv && .venv/bin/pip install -e '.[test]'

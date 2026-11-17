@@ -18,9 +18,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from rdkit import Chem
-from rdkit.Chem import Descriptors
-
 from sw_qsor.datasets import load_gslf, load_pyrfume_molecules
 from sw_qsor.evaluate import (
     by_bin,
@@ -29,15 +26,13 @@ from sw_qsor.evaluate import (
     pooled_micro_auc,
     summarise_labels,
 )
+from sw_qsor.experiment import gslf_experiment
 from sw_qsor.floors import KNN_K, base_rate, knn_1d
-from sw_qsor.identity import collapse_duplicates, key_table, overlap_matrix
+from sw_qsor.identity import key_table, overlap_matrix
 from sw_qsor.splits import (
     COMPONENT_THRESHOLD,
     N_FOLDS,
-    assign_folds,
-    cross_fold_nn_similarity,
     morgan_fingerprints,
-    nn_bin_labels,
     similarity_components,
 )
 
@@ -132,18 +127,9 @@ def _q(x):
 
 
 def floors_section(data_dir):
-    df, labels = load_gslf(data_dir / "gslf")
-    keys = key_table(df.smiles).key.tolist()
-    keep, Y = collapse_duplicates(keys, df[labels].to_numpy())
-    smiles = df.smiles.to_numpy()[keep]
-    keys = [keys[i] for i in keep]
-    n = len(keep)
-    mw = np.array([Descriptors.MolWt(Chem.MolFromSmiles(s)) for s in smiles])
-
-    fps = morgan_fingerprints(smiles)
-    groups = similarity_components(fps, keys=keys)
-    folds = assign_folds(groups, keys)
-    nn_bins = nn_bin_labels(cross_fold_nn_similarity(fps, folds))
+    ex = gslf_experiment(data_dir / "gslf")
+    labels, Y, mw, folds, nn_bins = ex.labels, ex.Y, ex.mw, ex.folds, ex.nn_bins
+    n = len(Y)
 
     print(f"== Chemistry-free floor: GS+LF, {n} molecules (duplicate records merged), "
           f"{len(labels)} labels, {N_FOLDS} rule-3 folds {np.bincount(folds).tolist()}\n")
