@@ -3,6 +3,12 @@
 Written 17 Nov 2026. Milestone 1's literature half is done (`reports/01_dataset_survey.md`);
 what is left is local and needs no external research. Ordered by dependency, not importance.
 
+## Read first
+
+`note-from-sw-enose.md` — what the sibling project found, what it corrected about its own
+diagnosis, and one measured-but-not-pre-registered observation on this project's own milestone 3
+results that is the most promising question currently available.
+
 ## 0. Package skeleton first (~20 min)
 
 Settled below: sw-qsor is built as an installable library from the start. So before any data,
